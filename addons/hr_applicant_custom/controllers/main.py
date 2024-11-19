@@ -1,3 +1,4 @@
+import base64
 from odoo import http
 from odoo.http import request
 import logging
@@ -31,17 +32,38 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 'highest_degree_or_certificate': kwargs.get('highest_degree_or_certificate'),
                 'professional_body': kwargs.get('professional_body'),
             }
-            
-            print("Creating applicant with vals:", vals)
+
+            # Create applicant first
             applicant = request.env['hr.applicant'].sudo().create(vals)
             print("Created applicant with ID:", applicant.id)
+
+            # Handle Resume
+            if kwargs.get('resume'):
+                resume_file = kwargs.get('resume')
+                attachment_value = {
+                    'name': resume_file.filename,
+                    'datas': base64.b64encode(resume_file.read()),
+                    'res_model': 'hr.applicant',
+                    'res_id': applicant.id,
+                    'type': 'binary',
+                    'description': 'Resume/CV'
+                }
+                request.env['ir.attachment'].sudo().create(attachment_value)
+                print("Resume uploaded:", resume_file.filename)
+
+            # Handle Academic Documents
+            if kwargs.get('academic_documents'):
+                academic_file = kwargs.get('academic_documents')
+                vals['academic_documents'] = base64.b64encode(academic_file.read())
+                applicant.write({'academic_documents': vals['academic_documents']})
+                print("Academic documents uploaded:", academic_file.filename)
             
             return json.dumps({
                 'success': True,
                 'message': 'Application submitted successfully',
                 'redirect_url': '/job-thank-you'
             })
-            
+
         except Exception as e:
             print("Error:", str(e))
             return json.dumps({
