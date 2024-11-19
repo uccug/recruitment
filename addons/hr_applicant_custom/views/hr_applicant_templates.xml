@@ -1,0 +1,180 @@
+<odoo>
+    <data>
+        <template id="extend_apply" inherit_id="website_hr_recruitment.apply">
+            <xpath expr="//section[@id='forms']" position="replace">
+                <section id="hr_recruitment_form" class="col">
+                    <form action="/website_form/hr.applicant"
+                        method="post" 
+                        class="s_website_form js_hr_recruitment_form" 
+                        enctype="multipart/form-data" 
+                        data-model_name="hr.applicant" 
+                        t-att-data-form_field_department_id="job and job.department_id.id or False" 
+                        t-att-data-form_field_job_id="job and job.id or False" 
+                        t-on-submit="validateForm">
+                        <input type="hidden" name="website_form_model_name" value="hr.applicant"/>
+                        <input type="hidden" name="website_form_model_record" value=""/>
+                          <!-- Add CSRF token -->
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        
+                        <!-- Required hidden fields -->
+                        <input type="hidden" name="website_form_model_name" value="hr.applicant"/>
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <span class="text-danger">* Required</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="partner_name">Name</label>
+                                 <input type="text" class="form-control o_website_form_input" name="partner_name" required=""/>
+                                 <div class="invalid-feedback">Name is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="email_from">Email</label>
+                                <input type="email" 
+                                       class="form-control o_website_form_input" 
+                                       name="email_from" 
+                                       required=""
+                                       data-required-message="Email is required"
+                                       data-invalid-message="Please enter a valid email address"/>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="partner_phone">Phone Number</label>
+                                <input type="text"
+                                       class="form-control o_website_form_input" 
+                                       name="partner_phone" 
+                                       required=""
+                                       data-required-message="Phone Number is required"
+                                       data-invalid-message="Please enter a valid phone number"/>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label for="nin" class="col-form-label">NIN Number</label>
+                                <input type="text"
+                                       name="nin" 
+                                       id="nin" 
+                                       class="form-control o_website_form_input" 
+                                       required="" 
+                                       maxlength="14" 
+                                       minlength="14"
+                                       data-required-message="NIN Number is required"
+                                       data-invalid-message="Enter a valid NIN Number"/>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="gender">Gender</label>
+                                <select name="gender" id="gender" class="form-control o_website_form_input" required="">
+                                    <option value="">Select Gender</option> 
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <div class="invalid-feedback">Gender is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="years_of_experience">Years of Experience</label>
+                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" required="" />
+                                <div class="invalid-feedback">Years of Experience is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="highest_education_level">Highest Level of Education</label>
+                                <select name="highest_education_level" id="highest_education_level" class="form-control o_website_form_input" required="">
+                                    <option value="">Select...</option> 
+                                    <option value="phd">Ph.D</option>
+                                    <option value="master">Master's Degree</option>
+                                    <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="high_school">High School</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="invalid-feedback">Highest Level of Education is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center d-none">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="other_highest_education_level">If 'Other' is selected, specify your highest level of education</label>
+                                <input type="text" 
+                                       name="highest_education_level" 
+                                       id="other_highest_education_level"
+                                       class="form-control o_website_form_input" required=""/>
+                                <div class="invalid-feedback">Please specify your education level</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="partner_name">Highest Degree or Certificate Awarded</label>
+                                 <input type="text" class="form-control o_website_form_input" name="highest_degree_or_certificate" required=""/>
+                                 <div class="invalid-feedback">Highest Degree or Certificate Awarded is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label for="professional_body" class="col-form-label">Membership in Professional Organization(s)</label>
+                                <input type="text" name="professional_body" id="professional_body" class="form-control o_website_form_input" placeholder="e.g., IEEE, Chartered Institute of Marketing" />
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="description">Short Introduction</label>
+                                <textarea class="form-control o_website_form_input" name="description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label class="col-form-label" for="resume">Resume (PDF only)</label>
+                                <input type="file" 
+                                       class="form-control o_website_form_input file-upload-input" 
+                                       name="resume" 
+                                       accept="application/pdf" 
+                                       required=""/>
+                                <div class="invalid-feedback">Resume is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom row justify-content-center">
+                            <div class="col-lg-7 col-md-8">
+                                <label for="academic_documents" class="col-form-label">Academic Documents (PDF only)</label>
+                                <input type="file" 
+                                       name="academic_documents" 
+                                       id="academic_documents" 
+                                       class="form-control o_website_form_input file-upload-input" 
+                                       accept="application/pdf" 
+                                       required=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row justify-content-center">
+                            <div class="col-lg-7 col-md-8 submit-button-wrapper">
+                                <span id="o_website_form_result" class=" text-danger"></span>
+                                <a href="#" role="button" class="btn btn-primary btn-lg o_website_form_send submit-button">Submit</a>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </xpath>
+        </template>
+    </data>
+</odoo>

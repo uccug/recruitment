@@ -1,0 +1,21 @@
+$text-danger: #c6538c;
+
+.form-field input[type="file"].form-control {
+    &.file-upload-input {
+        height: unset !important;
+    }
+}
+
+.submit-button-wrapper {
+    display: flex;
+    .submit-button {
+        margin-left: auto;
+    }
+}
+
+.o_website_form_required_custom {
+    .col-form-label:after {
+        content: ' *';
+        color: $text-danger;
+    }
+}
