@@ -23,4 +23,4 @@ services:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
-    command: odoo -u hr_applicant_custom --db-filter=^recruitment_update$ --dev xml
+    command: odoo -u hr_applicant_custom --db-filter=^job_applications$ --dev xml

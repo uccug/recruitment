@@ -122,23 +122,13 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             ev.stopPropagation();
             
             var self = this;
-            console.log('Event:', ev);
-            console.log('Current Target:', ev.currentTarget);
-            console.log('Target:', ev.target);
+            var $form = $(ev.target).closest('form');
+            var $submitButton = $(ev.target);
+            var originalText = $submitButton.text();
             
-            // Try different ways to get the form
-            var $form = $(ev.currentTarget);
-            console.log('jQuery form:', $form);
-            console.log('Form element:', $form[0]);
-            
-            // Get the closest form
-            var $closestForm = $(ev.target).closest('form');
-            console.log('Closest form:', $closestForm[0]);
-            
+            // Validate if needed
             var isValid = true;
-
-            // Validate fields
-            this.$('input[required], select[required], textarea[required]').each(function () {
+            $form.find('input[required], select[required], textarea[required]').each(function () {
                 if (!self._validateField($(this))) {
                     isValid = false;
                 }
@@ -148,12 +138,7 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                 return false;
             }
 
-            var $submitButton = $form.find('button[type="submit"]');
-            var originalText = $submitButton.text();
             $submitButton.prop('disabled', true).text('Submitting...');
-
-            // Try using the closest form
-            var formData = new FormData($closestForm[0]);
 
             // Add form data manually if needed
             /*
@@ -175,10 +160,14 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             });
             */
 
+            console.log('$form.att........>>>>> ', $form.attr('action'))
+
+
+            // Submit form using AJAX
             $.ajax({
-                url: '/website_form/hr.applicant',
+                url: $form.attr('action'),
                 type: 'POST',
-                data: formData,
+                data: new FormData($form[0]),  // Use the form element directly
                 processData: false,
                 contentType: false,
                 success: function (response) {
@@ -186,15 +175,15 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                         var result = JSON.parse(response);
                         if (result.error) {
                             alert(result.error_message || 'An error occurred');
-                            $submitButton.prop('disabled', false).text(originalText);
                         } else {
-                            window.location.href = result.redirect_url || '/job-thank-you';
+                            // window.location.href = result.redirect_url || '/job-thank-you';
+                            console.log('Redirecting to..........:', result.redirect_url || '/job-thank-you');
                         }
                     } catch (e) {
                         console.error('Error parsing response:', e);
                         alert('An error occurred');
-                        $submitButton.prop('disabled', false).text(originalText);
                     }
+                    $submitButton.prop('disabled', false).text(originalText);
                 },
                 error: function (xhr, status, error) {
                     console.error('Ajax error:', status, error);

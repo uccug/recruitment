@@ -6,11 +6,13 @@
     'description': 'Adds custom fields to the HR Applicant form.',
     'author': 'Your Name',
     'depends': [
+        'base',
         'hr',
         'hr_recruitment',
         'website',
         'website_form',
-        'website_hr_recruitment'
+        'website_hr_recruitment',
+        'web'
         ],
     'data': [
         'views/assets.xml',
@@ -18,4 +20,5 @@
     ],
     'installable': True,
     'application': False,
+    'auto_install': False
 }

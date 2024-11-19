@@ -3,7 +3,7 @@
         <template id="extend_apply" inherit_id="website_hr_recruitment.apply">
             <xpath expr="//section[@id='forms']" position="replace">
                 <section id="hr_recruitment_form" class="col">
-                    <form action="/website_form/hr.applicant"
+                    <form action="/website/form/hr.applicant"
                         method="post" 
                         class="s_website_form js_hr_recruitment_form" 
                         enctype="multipart/form-data" 
