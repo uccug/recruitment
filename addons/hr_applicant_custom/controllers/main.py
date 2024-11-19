@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class CustomWebsiteHrRecruitment(http.Controller):
     
-    @http.route('/website_form/hr.applicant', type='http', auth="public", methods=['POST'], website=True, csrf=False)
+    @http.route(['/website_form/hr.applicant'], type='http', auth="public", methods=['POST'], website=True)
     def website_form(self, **kwargs):
         _logger.info("="*80)
         _logger.info("Custom form handler called")
@@ -19,8 +19,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 'name': kwargs.get('partner_name', 'Unknown'),
                 'partner_name': kwargs.get('partner_name'),
                 'email_from': kwargs.get('email_from'),
-                'description': kwargs.get('description'),
-                # Custom fields
+                'description': kwargs.get('description', ''),
                 'nin': kwargs.get('nin'),
                 'gender': kwargs.get('gender'),
                 'years_of_experience': int(kwargs.get('years_of_experience', '0')),
@@ -31,7 +30,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
 
             _logger.info("Creating applicant with vals: %s", vals)
             applicant = request.env['hr.applicant'].sudo().create(vals)
-            _logger.info("Created applicant ID: %s", applicant.id)
+            _logger.info("Created applicant with ID: %s", applicant.id)
 
             return json.dumps({
                 'success': True,

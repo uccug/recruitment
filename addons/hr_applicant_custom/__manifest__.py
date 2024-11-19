@@ -5,7 +5,13 @@
     'summary': 'Custom fields for HR Applicant',
     'description': 'Adds custom fields to the HR Applicant form.',
     'author': 'Your Name',
-    'depends': ['hr_recruitment', 'website_hr_recruitment'],
+    'depends': [
+        'hr',
+        'hr_recruitment',
+        'website',
+        'website_form',
+        'website_hr_recruitment'
+        ],
     'data': [
         'views/assets.xml',
         'views/hr_applicant_templates.xml',

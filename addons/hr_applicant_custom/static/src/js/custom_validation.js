@@ -117,124 +117,64 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             return isValid;
         },
 
-        // _onFormSubmit: function(ev) {
-        //     ev.preventDefault();
-        //     ev.stopPropagation();
-            
-        //     var self = this;
-        //     var isValid = true;
-
-        //     // Validate fields
-        //     this.$('input[required], select[required], textarea[required]').each(function () {
-        //         if (!self._validateField($(this))) {
-        //             isValid = false;
-        //         }
-        //     });
-
-        //     if (!isValid) {
-        //         return false;
-        //     }
-
-        //     // Create FormData
-        //     var formData = new FormData();
-            
-        //     // Add CSRF token
-        //     formData.append('csrf_token', odoo.csrf_token);
-            
-        //     // Add all form fields
-        //     this.$('input, select, textarea').each(function() {
-        //         var field = $(this);
-        //         var name = field.attr('name');
-                
-        //         if (!name) return;
-                
-        //         if (field.attr('type') === 'file') {
-        //             if (field[0].files.length > 0) {
-        //                 formData.append(name, field[0].files[0]);
-        //             }
-        //         } else {
-        //             var value = field.val();
-        //             if (value) {
-        //                 formData.append(name, value);
-        //                 console.log('Adding field:', name, value);
-        //             }
-        //         }
-        //     });
-
-        //     // Add required fields
-        //     formData.append('website_form_model_name', 'hr.applicant');
-
-        //     // Debug log
-        //     console.log('Form data being sent:');
-        //     for (var pair of formData.entries()) {
-        //         console.log(pair[0] + ': ' + pair[1]);
-        //     }
-
-        //     var $submitButton = this.$('.o_website_form_send');
-        //     var originalText = $submitButton.text();
-        //     $submitButton.prop('disabled', true).text('Submitting...');
-
-        //     $.ajax({
-        //         url: '/website_form/hr.applicant',
-        //         type: 'POST',
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         headers: {
-        //             'X-CSRF-Token': odoo.csrf_token
-        //         },
-        //         success: function (response) {
-        //             console.log('Response:', response);
-        //             try {
-        //                 var result = JSON.parse(response);
-        //                 if (result.error) {
-        //                     alert(result.error_message || 'An error occurred');
-        //                     $submitButton.prop('disabled', false).text(originalText);
-        //                 } else {
-        //                     window.location.href = '/job-thank-you';
-        //                 }
-        //             } catch (e) {
-        //                 console.error('Error parsing response:', e);
-        //                 alert('An error occurred');
-        //                 $submitButton.prop('disabled', false).text(originalText);
-        //             }
-        //         },
-        //         error: function (xhr, status, error) {
-        //             console.error('Ajax error:', status, error);
-        //             console.error('Response:', xhr.responseText);
-        //             alert('Error submitting form');
-        //             $submitButton.prop('disabled', false).text(originalText);
-        //         }
-        //     });
-        // }
-
         _onFormSubmit: function(ev) {
             ev.preventDefault();
             ev.stopPropagation();
             
             var self = this;
+            console.log('Event:', ev);
+            console.log('Current Target:', ev.currentTarget);
+            console.log('Target:', ev.target);
+            
+            // Try different ways to get the form
             var $form = $(ev.currentTarget);
-            var $submitButton = $form.find('button[type="submit"]');
-            var originalText = $submitButton.text();
+            console.log('jQuery form:', $form);
+            console.log('Form element:', $form[0]);
+            
+            // Get the closest form
+            var $closestForm = $(ev.target).closest('form');
+            console.log('Closest form:', $closestForm[0]);
+            
             var isValid = true;
-        
+
             // Validate fields
             this.$('input[required], select[required], textarea[required]').each(function () {
                 if (!self._validateField($(this))) {
                     isValid = false;
                 }
             });
-        
+
             if (!isValid) {
                 return false;
             }
-        
+
+            var $submitButton = $form.find('button[type="submit"]');
+            var originalText = $submitButton.text();
             $submitButton.prop('disabled', true).text('Submitting...');
-        
-            // Create FormData object
-            var formData = new FormData($form[0]);
-        
-            // Submit form
+
+            // Try using the closest form
+            var formData = new FormData($closestForm[0]);
+
+            // Add form data manually if needed
+            /*
+            var formData = new FormData();
+            $form.find('input, select, textarea').each(function() {
+                var $input = $(this);
+                var name = $input.attr('name');
+                var value = $input.val();
+                if (name) {
+                    if ($input.attr('type') === 'file') {
+                        var files = $input[0].files;
+                        if (files.length > 0) {
+                            formData.append(name, files[0]);
+                        }
+                    } else {
+                        formData.append(name, value);
+                    }
+                }
+            });
+            */
+
             $.ajax({
                 url: '/website_form/hr.applicant',
                 type: 'POST',
