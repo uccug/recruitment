@@ -13,7 +13,6 @@
                         <t t-if="job">
                             <div class="d-none">Job ID: <t t-esc="job.id"/></div>
                         </t>
-                          <!-- Add CSRF token -->
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
                         <input type="hidden" name="website_form_model_name" value="hr.applicant"/>
@@ -26,7 +25,13 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="partner_name">Full Name</label>
-                                 <input type="text" class="form-control o_website_form_input" name="partner_name" placeholder="Enter your full name" required=""/>
+                                 <input type="text" 
+                                        class="form-control o_website_form_input" 
+                                        name="partner_name" 
+                                        placeholder="Enter your full name" 
+                                        required=""
+                                        data-required-message="Name is required"
+                                        data-invalid-message="Please enter a valid name"/>
                                  <div class="invalid-feedback">Name is required</div>
                             </div>
                         </div>
@@ -91,7 +96,16 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="years_of_experience">Years of Experience</label>
-                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience e.g 6" required="" min="0" step="1"/>
+                                <input type="number"
+                                       name="years_of_experience" 
+                                       id="years_of_experience" 
+                                       class="form-control o_website_form_input" 
+                                       placeholder="Enter your years of professional experience e.g 6" 
+                                       required="" 
+                                       min="0" 
+                                       step="1"
+                                       data-required-message="Years of Experience is required"
+                                       data-invalid-message="Please enter a valid number"/>
                                 <div class="invalid-feedback">Years of Experience is required</div>
                             </div>
                         </div>
