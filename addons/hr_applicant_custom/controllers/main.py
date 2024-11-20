@@ -13,7 +13,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
         print("Test route accessed!")
         return "Controller is working!"
 
-    @http.route('/website/form/hr.applicant', type='http', auth='public', methods=['POST'], website=True, csrf=False)
+    @http.route('/website/form/hr.applicant', type='http', auth='public', methods=['POST'], website=True, csrf=True)
     def website_form(self, **kwargs):
         print("="*80)
         print("Form submission received")
@@ -26,6 +26,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 'email_from': kwargs.get('email_from'),
                 'partner_phone': kwargs.get('partner_phone'),
                 'description': kwargs.get('description', ''),
+                'job_id': int(kwargs.get('job_id')) if kwargs.get('job_id') else False, 
                 'nin': kwargs.get('nin'),
                 'gender': kwargs.get('gender'),
                 'years_of_experience': int(kwargs.get('years_of_experience', '0')),

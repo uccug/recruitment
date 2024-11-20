@@ -6,15 +6,16 @@
                     <form action="/website/form/hr.applicant"
                         method="post" 
                         class="js_hr_recruitment_form" 
-                        enctype="multipart/form-data" 
-                        t-att-data-form_field_department_id="job and job.department_id.id or False" 
-                        t-att-data-form_field_job_id="job and job.id or False">
+                        enctype="multipart/form-data">
                         <input type="hidden" name="website_form_model_name" value="hr.applicant"/>
                         <input type="hidden" name="website_form_model_record" value=""/>
+                        <input type="hidden" name="job_id" t-att-value="job and job.id or ''"/>
+                        <t t-if="job">
+                            <div class="d-none">Job ID: <t t-esc="job.id"/></div>
+                        </t>
                           <!-- Add CSRF token -->
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        
-                        <!-- Required hidden fields -->
+
                         <input type="hidden" name="website_form_model_name" value="hr.applicant"/>
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">

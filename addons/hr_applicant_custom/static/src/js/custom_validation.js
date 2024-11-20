@@ -114,6 +114,8 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             var $form = $(ev.target).closest('form');
             var $submitButton = $(ev.target);
             var originalText = $submitButton.text();
+            var jobId = $form.find('input[name="job_id"]').val();
+            console.log('Job ID..........:', jobId);
             
             var isValid = true;
             $form.find('input[required], select[required], textarea[required]').each(function () {
