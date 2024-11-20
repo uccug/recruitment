@@ -119,8 +119,7 @@
                                        name="highest_education_level" 
                                        id="other_highest_education_level"
                                        class="form-control o_website_form_input" 
-                                       placeholder="Enter your highest level of education"
-                                       required=""/>
+                                       placeholder="Enter your highest level of education"/>
                                 <div class="invalid-feedback">Please specify your education level</div>
                             </div>
                         </div>

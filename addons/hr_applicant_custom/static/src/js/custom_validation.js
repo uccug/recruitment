@@ -1,12 +1,7 @@
-console.log('1. File is being loaded');
-
-// First module definition - Widget definition
 odoo.define('hr_applicant_custom.custom_validation', function (require) {
     'use strict';
 
-    console.log('2. Inside odoo.define');
     var sAnimation = require('website.content.snippets.animation');
-    console.log('3. sAnimation loaded');
 
     var FormValidation = sAnimation.Class.extend({
         selector: '.js_hr_recruitment_form',
@@ -19,9 +14,7 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
         },
 
         start: function () {
-            console.log('4. Widget started');
             this._super.apply(this, arguments);
-            console.log('Form found:', this.$el.length);
             return this;
         },
 
@@ -39,17 +32,14 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
         },
 
         _onFieldInput: function (ev) {
-            console.log('Field input event triggered');
             this._validateField($(ev.target));
         },
 
         _onFieldBlur: function (ev) {
-            console.log('Field blur event triggered');
             this._validateField($(ev.target));
         },
 
         _validateField: function($field) {
-            console.log('Validating field:', $field.attr('name'));
             var isValid = true;
             var value = $field.val().trim();
             var $feedback = $field.siblings('.invalid-feedback');
@@ -106,7 +96,6 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                 }
             }
 
-            // Update field status
             if (!isValid) {
                 $field.addClass('is-invalid');
             } else {
@@ -126,7 +115,6 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             var $submitButton = $(ev.target);
             var originalText = $submitButton.text();
             
-            // Validate if needed
             var isValid = true;
             $form.find('input[required], select[required], textarea[required]').each(function () {
                 if (!self._validateField($(this))) {
@@ -140,44 +128,21 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
 
             $submitButton.prop('disabled', true).text('Submitting...');
 
-            // Add form data manually if needed
-            /*
-            var formData = new FormData();
-            $form.find('input, select, textarea').each(function() {
-                var $input = $(this);
-                var name = $input.attr('name');
-                var value = $input.val();
-                if (name) {
-                    if ($input.attr('type') === 'file') {
-                        var files = $input[0].files;
-                        if (files.length > 0) {
-                            formData.append(name, files[0]);
-                        }
-                    } else {
-                        formData.append(name, value);
-                    }
-                }
-            });
-            */
 
-            console.log('$form.att........>>>>> ', $form.attr('action'))
-
-
-            // Submit form using AJAX
             $.ajax({
                 url: $form.attr('action'),
                 type: 'POST',
-                data: new FormData($form[0]),  // Use the form element directly
+                data: new FormData($form[0]),
                 processData: false,
                 contentType: false,
                 success: function (response) {
                     try {
                         var result = JSON.parse(response);
                         if (result.error) {
+                            console.error('Error response:', result.error);
                             alert(result.error_message || 'An error occurred');
                         } else {
-                            // window.location.href = result.redirect_url || '/job-thank-you';
-                            console.log('Redirecting to..........:', result.redirect_url || '/job-thank-you');
+                            window.location.href = result.redirect_url || '/job-thank-you';
                         }
                     } catch (e) {
                         console.error('Error parsing response:', e);
@@ -186,8 +151,7 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                     $submitButton.prop('disabled', false).text(originalText);
                 },
                 error: function (xhr, status, error) {
-                    console.error('Ajax error:', status, error);
-                    console.error('Response:', xhr.responseText);
+
                     alert('Error submitting form');
                     $submitButton.prop('disabled', false).text(originalText);
                 }
@@ -196,6 +160,5 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
     });
 
     sAnimation.registry.formValidation = FormValidation;
-    console.log('5. Widget registered');
     return FormValidation;
 });
