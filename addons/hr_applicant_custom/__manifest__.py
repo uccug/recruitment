@@ -18,6 +18,7 @@
         'views/assets.xml',
         'views/hr_applicant_templates.xml',
     ],
+    'sequence': 100,
     'installable': True,
     'application': False,
     'auto_install': False
