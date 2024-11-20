@@ -24,6 +24,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 'name': kwargs.get('partner_name', 'Unknown'),
                 'partner_name': kwargs.get('partner_name'),
                 'email_from': kwargs.get('email_from'),
+                'partner_phone': kwargs.get('partner_phone'),
                 'description': kwargs.get('description', ''),
                 'nin': kwargs.get('nin'),
                 'gender': kwargs.get('gender'),

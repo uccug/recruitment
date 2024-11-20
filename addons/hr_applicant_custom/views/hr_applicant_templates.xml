@@ -49,7 +49,7 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="partner_phone">Phone Number</label>
-                                <input type="text"
+                                <input type="tel"
                                        class="form-control o_website_form_input" 
                                        name="partner_phone" 
                                        placeholder="e.g., +256123456789"
