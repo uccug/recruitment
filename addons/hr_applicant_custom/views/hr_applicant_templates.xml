@@ -92,7 +92,7 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="years_of_experience">Years of Experience</label>
-                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience" required="" />
+                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience e.g 6" required="" />
                                 <div class="invalid-feedback">Years of Experience is required</div>
                             </div>
                         </div>
@@ -105,6 +105,8 @@
                                     <option value="phd">Ph.D</option>
                                     <option value="master">Master's Degree</option>
                                     <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="professional_certification">Professional Certification</option>
                                     <option value="high_school">High School</option>
                                     <option value="other">Other</option>
                                 </select>
@@ -131,7 +133,7 @@
                                  <input type="text" 
                                         class="form-control o_website_form_input" 
                                         name="highest_degree_or_certificate" 
-                                        placeholder="Enter your highest degree or certificate awarded"
+                                        placeholder="e.g., Bachelor of Science in Computer Science"
                                         required=""/>
                                  <div class="invalid-feedback">Highest Degree or Certificate Awarded is required</div>
                             </div>
@@ -172,14 +174,15 @@
 
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
-                                <label for="academic_documents" class="col-form-label">Academic Documents (PDF only)</label>
+                                <label for="academic_documents" class="col-form-label">Academic Documents in a single file (PDF only)</label>
                                 <input type="file" 
                                        name="academic_documents" 
                                        id="academic_documents" 
                                        class="form-control o_website_form_input file-upload-input" 
                                        accept="application/pdf" 
                                        required=""
-                                       placeholder="Upload your academic documents (PDF only)"/>
+                                       placeholder="Upload your academic documents in a single file(PDF only)"/>
+                                <div class="invalid-feedback">Academic Documents are required</div>
                             </div>
                         </div>
 
