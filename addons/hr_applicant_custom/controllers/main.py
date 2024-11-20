@@ -7,6 +7,11 @@ import json
 _logger = logging.getLogger(__name__)
 
 class CustomWebsiteHrRecruitment(http.Controller):
+    # File size limits in bytes
+    MAX_SIZES = {
+        'resume': 2 * 1024 * 1024,        # 2MB
+        'academic_documents': 5 * 1024 * 1024  # 5MB
+    }
     
     @http.route('/applicant/test', type='http', auth='public', website=True)
     def test_route(self):
@@ -20,6 +25,17 @@ class CustomWebsiteHrRecruitment(http.Controller):
         print("POST data:", kwargs)
         
         try:
+            # Validate file sizes
+            for field_name, file_data in kwargs.items():
+                if hasattr(file_data, 'read') and field_name in self.MAX_SIZES:
+                    if len(file_data.read()) > self.MAX_SIZES[field_name]:
+                        size_mb = self.MAX_SIZES[field_name] / (1024 * 1024)
+                        return json.dumps({
+                            'error': True,
+                            'error_message': 'File size exceeds {}MB limit for {}'.format(size_mb, field_name)
+                        })
+                    file_data.seek(0)  # Reset file pointer after reading
+
             vals = {
                 'name': kwargs.get('partner_name', 'Unknown'),
                 'partner_name': kwargs.get('partner_name'),
