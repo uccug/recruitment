@@ -26,8 +26,8 @@
 
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
-                                <label class="col-form-label" for="partner_name">Name</label>
-                                 <input type="text" class="form-control o_website_form_input" name="partner_name" required=""/>
+                                <label class="col-form-label" for="partner_name">Full Name</label>
+                                 <input type="text" class="form-control o_website_form_input" name="partner_name" placeholder="Enter your full name" required=""/>
                                  <div class="invalid-feedback">Name is required</div>
                             </div>
                         </div>
@@ -38,6 +38,7 @@
                                 <input type="email" 
                                        class="form-control o_website_form_input" 
                                        name="email_from" 
+                                       placeholder="Enter your email address"
                                        required=""
                                        data-required-message="Email is required"
                                        data-invalid-message="Please enter a valid email address"/>
@@ -51,6 +52,7 @@
                                 <input type="text"
                                        class="form-control o_website_form_input" 
                                        name="partner_phone" 
+                                       placeholder="e.g., +256123456789"
                                        required=""
                                        data-required-message="Phone Number is required"
                                        data-invalid-message="Please enter a valid phone number"/>
@@ -68,6 +70,7 @@
                                        required="" 
                                        maxlength="14" 
                                        minlength="14"
+                                       placeholder="Enter you NIN Number"
                                        data-required-message="NIN Number is required"
                                        data-invalid-message="Enter a valid NIN Number"/>
                                 <div class="invalid-feedback"></div>
@@ -89,7 +92,7 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="years_of_experience">Years of Experience</label>
-                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" required="" />
+                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience" required="" />
                                 <div class="invalid-feedback">Years of Experience is required</div>
                             </div>
                         </div>
@@ -98,7 +101,7 @@
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="highest_education_level">Highest Level of Education</label>
                                 <select name="highest_education_level" id="highest_education_level" class="form-control o_website_form_input" required="">
-                                    <option value="">Select...</option> 
+                                    <option value="">Select your highest level of education</option> 
                                     <option value="phd">Ph.D</option>
                                     <option value="master">Master's Degree</option>
                                     <option value="bachelor">Bachelor's Degree</option>
@@ -115,7 +118,9 @@
                                 <input type="text" 
                                        name="highest_education_level" 
                                        id="other_highest_education_level"
-                                       class="form-control o_website_form_input" required=""/>
+                                       class="form-control o_website_form_input" 
+                                       placeholder="Enter your highest level of education"
+                                       required=""/>
                                 <div class="invalid-feedback">Please specify your education level</div>
                             </div>
                         </div>
@@ -123,7 +128,11 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="partner_name">Highest Degree or Certificate Awarded</label>
-                                 <input type="text" class="form-control o_website_form_input" name="highest_degree_or_certificate" required=""/>
+                                 <input type="text" 
+                                        class="form-control o_website_form_input" 
+                                        name="highest_degree_or_certificate" 
+                                        placeholder="Enter your highest degree or certificate awarded"
+                                        required=""/>
                                  <div class="invalid-feedback">Highest Degree or Certificate Awarded is required</div>
                             </div>
                         </div>
@@ -131,14 +140,20 @@
                         <div class="form-group form-field row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label for="professional_body" class="col-form-label">Membership in Professional Organization(s)</label>
-                                <input type="text" name="professional_body" id="professional_body" class="form-control o_website_form_input" placeholder="e.g., IEEE, Chartered Institute of Marketing" />
+                                <input type="text" 
+                                       name="professional_body" 
+                                       id="professional_body" 
+                                       class="form-control o_website_form_input" 
+                                       placeholder="e.g., IEEE, Chartered Institute of Marketing" />
                             </div>
                         </div>
 
                         <div class="form-group form-field row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="description">Short Introduction</label>
-                                <textarea class="form-control o_website_form_input" name="description"></textarea>
+                                <textarea class="form-control o_website_form_input" 
+                                          name="description"
+                                          placeholder="Enter a short introduction about yourself"></textarea>
                             </div>
                         </div>
 
@@ -149,7 +164,8 @@
                                        class="form-control o_website_form_input file-upload-input" 
                                        name="resume" 
                                        accept="application/pdf" 
-                                       required=""/>
+                                       required=""
+                                       placeholder="Upload your resume (PDF only)"/>
                                 <div class="invalid-feedback">Resume is required</div>
                             </div>
                         </div>
@@ -162,7 +178,8 @@
                                        id="academic_documents" 
                                        class="form-control o_website_form_input file-upload-input" 
                                        accept="application/pdf" 
-                                       required=""/>
+                                       required=""
+                                       placeholder="Upload your academic documents (PDF only)"/>
                             </div>
                         </div>
 
