@@ -91,7 +91,7 @@
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
                                 <label class="col-form-label" for="years_of_experience">Years of Experience</label>
-                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience e.g 6" required="" />
+                                <input type="number" name="years_of_experience" id="years_of_experience" class="form-control o_website_form_input" placeholder="Enter your years of professional experience e.g 6" required="" min="0" step="1"/>
                                 <div class="invalid-feedback">Years of Experience is required</div>
                             </div>
                         </div>

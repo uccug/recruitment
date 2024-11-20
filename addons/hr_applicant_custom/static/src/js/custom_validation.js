@@ -17,7 +17,7 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
 
         maxSizes: {
             'resume': 2 * 1024 * 1024,        // 2MB
-            'academic_documents': 2 * 1024 * 1024  // 5MB
+            'academic_documents': 5 * 1024 * 1024  // 5MB
         },
 
         start: function () {
