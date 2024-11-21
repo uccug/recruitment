@@ -26,3 +26,4 @@ class HrApplicant(models.Model):
     highest_degree_or_certificate = fields.Char(string='Highest Degree or Certificate', tracking=True)
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
+    # use ir.attachment. and many to one for attachments

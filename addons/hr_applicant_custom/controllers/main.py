@@ -71,8 +71,15 @@ class CustomWebsiteHrRecruitment(http.Controller):
 
             if kwargs.get('academic_documents'):
                 academic_file = kwargs.get('academic_documents')
-                vals['academic_documents'] = base64.b64encode(academic_file.read())
-                applicant.write({'academic_documents': vals['academic_documents']})
+                attachment_value = {
+                    'name': academic_file.filename,
+                    'datas': base64.b64encode(academic_file.read()),
+                    'res_model': 'hr.applicant',
+                    'res_id': applicant.id,
+                    'type': 'binary',
+                    'description': 'Academic Documents'
+                }
+                request.env['ir.attachment'].sudo().create(attachment_value)
                 print("Academic documents uploaded:", academic_file.filename)
 
             try:
