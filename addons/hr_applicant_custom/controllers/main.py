@@ -94,6 +94,10 @@ class CustomWebsiteHrRecruitment(http.Controller):
                     _logger.info('Application confirmation email sent to %s', applicant.email_from)
             except Exception as e:
                 _logger.error('Failed to send application email: %s', str(e))
+
+            # Clear the session data before redirecting
+            request.session.pop('form_builder_model_model', None)
+            request.session.pop('form_builder_id', None)
             
             return json.dumps({
                 'success': True,
