@@ -69,12 +69,24 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 request.env['ir.attachment'].sudo().create(attachment_value)
                 print("Resume uploaded:", resume_file.filename)
 
-            # Handle Academic Documents
             if kwargs.get('academic_documents'):
                 academic_file = kwargs.get('academic_documents')
                 vals['academic_documents'] = base64.b64encode(academic_file.read())
                 applicant.write({'academic_documents': vals['academic_documents']})
                 print("Academic documents uploaded:", academic_file.filename)
+
+            try:
+                template_id = request.env.ref('hr_applicant_custom.email_template_application_received')
+                if template_id:
+                    template_id.sudo().with_context(
+                        lang=request.env.user.lang
+                    ).send_mail(
+                        applicant.id,
+                        force_send=True
+                    )
+                    _logger.info('Application confirmation email sent to %s', applicant.email_from)
+            except Exception as e:
+                _logger.error('Failed to send application email: %s', str(e))
             
             return json.dumps({
                 'success': True,
