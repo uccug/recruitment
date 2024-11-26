@@ -165,7 +165,8 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
 
             
             $form.find('input[required], select[required], textarea[required]').each(function () {
-                if (!self._validateField($(this))) {
+                var $field = $(this);
+                if (!self._validateField($field)) {
                     isValid = false;
                     var fieldName = $field.closest('.form-group').find('label').text() || $field.attr('name');
                     errorMessages.required.push(fieldName.trim());
