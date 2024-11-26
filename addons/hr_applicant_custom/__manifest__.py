@@ -15,6 +15,7 @@
         'web'
         ],
     'data': [
+        'views/hr_applicant_views.xml',
         'data/mail_template.xml',
         'views/assets.xml',
         'views/hr_applicant_templates.xml',

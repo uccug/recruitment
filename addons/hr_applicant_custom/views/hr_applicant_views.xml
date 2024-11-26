@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.form.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="inside">
+                <group string="Additional Information">
+                    <field name="nin"/>
+                    <field name="gender"/>
+                    <field name="years_of_experience"/>
+                    <field name="highest_education_level"/>
+                    <field name="highest_degree_or_certificate"/>
+                    <field name="professional_body"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="hr_applicant_view_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.tree.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.crm_case_tree_view_job"/>
+        <field name="arch" type="xml">
+            <field name="partner_name" position="after">
+                <field name="nin"/>
+                <field name="gender"/>
+                <field name="years_of_experience"/>
+                <field name="highest_education_level"/>
+                <field name="professional_body"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="hr_applicant_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.kanban.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div class="mt-2">
+                    <strong>Experience:</strong> <field name="years_of_experience"/> years<br/>
+                    <strong>Education:</strong> <field name="highest_education_level"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <!-- <record id="hr_applicant_view_search_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.search.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.view_crm_case_jobs_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_name" position="after">
+                <field name="nin"/>
+                <field name="highest_education_level"/>
+                <field name="professional_body"/>
+            </field>
+            <filter name="group_by_stage" position="after">
+                <filter string="Education Level" name="group_by_education" 
+                        domain="[]" context="{'group_by': 'highest_education_level'}"/>
+                <filter string="Years of Experience" name="group_by_experience" 
+                        domain="[]" context="{'group_by': 'years_of_experience'}"/>
+            </filter>
+        </field>
+    </record> -->
+
+    <!-- Attachment Kanban View - Can be moved to a different place -->
+    <record id="ir_attachment_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">ir.attachment.kanban.inherit</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="mail.view_document_file_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div class="oe_kanban_bottom_left">
+                    <field name="name"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo> 
