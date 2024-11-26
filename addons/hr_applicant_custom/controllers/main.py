@@ -23,8 +23,18 @@ class CustomWebsiteHrRecruitment(http.Controller):
         print("="*80)
         print("Form submission received")
         print("POST data:", kwargs)
-        
+
         try:
+            # Check deadline
+            job_id = int(kwargs.get('job_id')) if kwargs.get('job_id') else False
+            if job_id:
+                job = request.env['hr.job'].sudo().browse(job_id)
+                if job.is_deadline_passed:
+                    return json.dumps({
+                        'error': True,
+                        'error_message': 'The application deadline for this position has passed.'
+                    })
+        
             # Validate file sizes
             for field_name, file_data in kwargs.items():
                 if hasattr(file_data, 'read') and field_name in self.MAX_SIZES:

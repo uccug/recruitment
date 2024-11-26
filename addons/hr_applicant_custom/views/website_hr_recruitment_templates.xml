@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Job Detail Page -->
+    <template id="job_deadline_detail" inherit_id="website_hr_recruitment.detail">
+        <!-- Add deadline info after the job title -->
+        <xpath expr="//h1[@t-field='job.name']" position="after">
+            <t t-if="job.application_deadline">
+                <div t-attf-class="alert #{job.is_deadline_passed and 'alert-danger' or 'alert-info'} mt8">
+                    <strong>Application Deadline:</strong> 
+                    <span t-field="job.application_deadline"/>
+                    <t t-if="job.is_deadline_passed">
+                        <br/><strong class="text-danger">Applications are no longer being accepted</strong>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+        
+        <!-- Modify both Apply Now buttons -->
+        <xpath expr="//a[@role='button'][1]" position="attributes">
+            <attribute name="t-if">not job.is_deadline_passed</attribute>
+        </xpath>
+        
+        <xpath expr="//section[hasclass('o_job_bottom_bar')]//a[@role='button']" position="attributes">
+            <attribute name="t-if">not job.is_deadline_passed</attribute>
+        </xpath>
+    </template>
+
+    <!-- Jobs Listing Page -->
+    <template id="jobs_deadline_list" inherit_id="website_hr_recruitment.index">
+        <xpath expr="//div[hasclass('media-body')]/h3" position="after">
+            <t t-if="job.application_deadline">
+                <div t-attf-class="small text-muted mt-2 #{job.is_deadline_passed and 'text-danger'}">
+                    <i class="fa fa-calendar"/> Deadline: <span t-field="job.application_deadline"/>
+                    <t t-if="job.is_deadline_passed"> (Closed)</t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo> 
