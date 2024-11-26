@@ -17,14 +17,18 @@
         <field name="model">hr.job</field>
         <field name="inherit_id" ref="hr.view_job_filter"/>
         <field name="arch" type="xml">
-            <field name="name" position="after">
+            <search position="inside">
                 <field name="application_deadline"/>
                 <separator/>
                 <filter string="Deadline Passed" name="deadline_passed" 
                         domain="[('is_deadline_passed', '=', True)]"/>
                 <filter string="Open for Applications" name="open_applications" 
                         domain="['|', ('application_deadline', '=', False), ('is_deadline_passed', '=', False)]"/>
-            </field>
+                <group expand="0" string="Group By">
+                    <filter string="Application Deadline" name="group_deadline" 
+                            domain="[]" context="{'group_by':'application_deadline'}"/>
+                </group>
+            </search>
         </field>
     </record>
 </odoo> 
