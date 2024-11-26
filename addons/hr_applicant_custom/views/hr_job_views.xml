@@ -11,4 +11,20 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_job_filter_deadline" model="ir.ui.view">
+        <field name="name">hr.job.filter.deadline</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_job_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="application_deadline"/>
+                <separator/>
+                <filter string="Deadline Passed" name="deadline_passed" 
+                        domain="[('is_deadline_passed', '=', True)]"/>
+                <filter string="Open for Applications" name="open_applications" 
+                        domain="['|', ('application_deadline', '=', False), ('is_deadline_passed', '=', False)]"/>
+            </field>
+        </field>
+    </record>
 </odoo> 
