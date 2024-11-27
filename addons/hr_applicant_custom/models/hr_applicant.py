@@ -36,9 +36,8 @@ class HrApplicant(models.Model):
     def action_send_stage_email(self, stage_id, job_id=False):
         if not job_id:
             raise UserError('Job position not found. Please try again.')
-        
-        domain = [('stage_id', '=', stage_id), ('job_id', '=', job_id)]
             
+        domain = [('stage_id', '=', stage_id), ('job_id', '=', job_id)]
         applicants = self.search(domain)
         
         if not applicants:
@@ -48,12 +47,11 @@ class HrApplicant(models.Model):
         if not stage.template_id:
             raise UserError('No email template defined for this stage.')
 
-        # Using the stage's template to send emails
-        for applicant in applicants:
-            stage.template_id.send_mail(applicant.id, force_send=True)
+        # Queue the emails in the background
+        self.with_context(active_ids=applicants.ids).send_stage_emails(stage.template_id.id)
 
         count = len(applicants)
-        message = 'Email{} sent to {} applicant{}'.format(
+        message = 'Sending email{} to {} applicant{}'.format(
             's' if count > 1 else '',
             count,
             's' if count > 1 else ''
@@ -63,9 +61,21 @@ class HrApplicant(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': 'Success!',
+                'title': 'Success',
                 'message': message,
-                'type': 'success',
-                'sticky': False,
+                'type': 'success'
             }
-        } 
+        }
+
+    @api.model
+    def send_stage_emails(self, template_id):
+        """Send emails in background with auto-commit"""
+        template = self.env['mail.template'].browse(template_id)
+        active_ids = self._context.get('active_ids', [])
+        
+        for applicant_id in active_ids:
+            template.with_context(auto_commit=True).send_mail(
+                applicant_id, 
+                force_send=True,
+                raise_exception=False
+            ) 

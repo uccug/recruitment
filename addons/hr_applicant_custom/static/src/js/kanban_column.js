@@ -61,6 +61,9 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
             
             Dialog.confirm(this, _t("Are you sure you want to send emails to applicants in this stage?"), {
                 confirm_callback: function () {
+                    // Show immediate feedback
+                    self.do_notify(_t('Info'), _t('Sending emails in background...'));
+                    
                     self._rpc({
                         model: 'hr.applicant',
                         method: 'action_send_stage_email',
@@ -68,8 +71,12 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                         kwargs: {
                             'job_id': job_id,
                         }
+                    }, {
+                        shadow: true  // Prevents the loading indicator
                     }).then(function (result) {
-                        self.do_notify(_t('Success'), _t(result.params.message));
+                        if (result && result.params) {
+                            self.do_notify(_t('Success'), result.params.message);
+                        }
                     }).fail(function (error) {
                         self.do_warn(_t('Error'), _t('Failed to send emails'));
                     });
