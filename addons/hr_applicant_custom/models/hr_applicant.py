@@ -79,4 +79,25 @@ class HrApplicant(models.Model):
                 force_send=True,
                 raise_exception=False
             ) 
-    # For even better performance in Odoo Enterprise, you could use the queue job module:
+    # For even better performance when sending emails in Odoo Enterprise, we could use the queue job module:
+
+    """ 
+    Since we are sending emails in a stage manually, this method is used to disable automatic
+    mail sending when updating the stage of an applicant. it adds a context to skip the stage email.
+    """
+    @api.multi
+    def write(self, vals):
+        if 'stage_id' in vals:
+            # Using context to disable automatic mail sending
+            return super(HrApplicant, self.with_context(skip_stage_email=True)).write(vals)
+        return super(HrApplicant, self).write(vals)
+
+    """
+    Overriding _track_template to skip automatic email sending when dragging applications
+    """
+    @api.multi
+    def _track_template(self, changes):
+        # Skipping automatic email if context flag(skip_stage_email) is set
+        if self._context.get('skip_stage_email'):
+            return {}
+        return super(HrApplicant, self)._track_template(changes)
