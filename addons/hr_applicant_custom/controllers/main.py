@@ -12,20 +12,11 @@ class CustomWebsiteHrRecruitment(http.Controller):
         'resume': 2 * 1024 * 1024,        # 2MB
         'academic_documents': 5 * 1024 * 1024  # 5MB
     }
-    
-    @http.route('/applicant/test', type='http', auth='public', website=True)
-    def test_route(self):
-        print("Test route accessed!")
-        return "Controller is working!"
 
     @http.route('/website/form/hr.applicant', type='http', auth='public', methods=['POST'], website=True, csrf=True)
     def website_form(self, **kwargs):
-        print("="*80)
-        print("Form submission received")
-        print("POST data:", kwargs)
-
         try:
-            # Check deadline
+            # Checks deadline
             job_id = int(kwargs.get('job_id')) if kwargs.get('job_id') else False
             if job_id:
                 job = request.env['hr.job'].sudo().browse(job_id)
@@ -35,7 +26,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
                         'error_message': 'The application deadline for this position has passed.'
                     })
         
-            # Validate file sizes
+            # Validates file sizes
             for field_name, file_data in kwargs.items():
                 if hasattr(file_data, 'read') and field_name in self.MAX_SIZES:
                     if len(file_data.read()) > self.MAX_SIZES[field_name]:
@@ -44,7 +35,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
                             'error': True,
                             'error_message': 'File size exceeds {}MB limit for {}'.format(size_mb, field_name)
                         })
-                    file_data.seek(0)  # Reset file pointer after reading
+                    file_data.seek(0)  # Resets file pointer after reading
 
             vals = {
                 'name': kwargs.get('partner_name', 'Unknown'),
@@ -61,11 +52,10 @@ class CustomWebsiteHrRecruitment(http.Controller):
                 'professional_body': kwargs.get('professional_body'),
             }
 
-            # Create applicant first
+            # Creates applicant first
             applicant = request.env['hr.applicant'].sudo().create(vals)
-            print("Created applicant with ID:", applicant.id)
 
-            # Handle Resume
+            # Handles Resume
             if kwargs.get('resume'):
                 resume_file = kwargs.get('resume')
                 attachment_value = {
@@ -77,7 +67,6 @@ class CustomWebsiteHrRecruitment(http.Controller):
                     'description': 'Resume/CV'
                 }
                 request.env['ir.attachment'].sudo().create(attachment_value)
-                print("Resume uploaded:", resume_file.filename)
 
             if kwargs.get('academic_documents'):
                 academic_file = kwargs.get('academic_documents')
@@ -90,7 +79,6 @@ class CustomWebsiteHrRecruitment(http.Controller):
                     'description': 'Academic Documents'
                 }
                 request.env['ir.attachment'].sudo().create(attachment_value)
-                print("Academic documents uploaded:", academic_file.filename)
 
             try:
                 template_id = request.env.ref('hr_applicant_custom.email_template_application_received')
@@ -105,7 +93,7 @@ class CustomWebsiteHrRecruitment(http.Controller):
             except Exception as e:
                 _logger.error('Failed to send application email: %s', str(e))
 
-            # Clear the session data before redirecting
+            # Clears the session data before redirecting
             request.session.pop('form_builder_model_model', None)
             request.session.pop('form_builder_id', None)
             

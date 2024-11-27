@@ -129,20 +129,20 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             return isValid;
         },
         _showAlert: function($form, message, type = 'danger') {
-            // Remove any existing alerts
+            // Removes any existing alerts
             $form.find('.validation-alert').remove();
             
-            // Create Bootstrap alert
+            // Creates Bootstrap alert
             var alertHtml = '<div class="alert alert-' + type + ' validation-alert alert-dismissible fade show" role="alert">' +
                 '<strong>' + (type === 'danger' ? 'Error!' : 'Success!') + '</strong> ' + message +
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span></button>' +
                 '</div>';
                 
-            // Insert alert at top of form
+            // Inserts alert at top of form
             $form.prepend(alertHtml);
             
-            // Scroll to alert
+            // Scrolls to alert
             $('html, body').animate({
                 scrollTop: $form.find('.validation-alert').offset().top - 100
             }, 500);

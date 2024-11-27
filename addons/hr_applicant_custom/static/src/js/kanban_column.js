@@ -10,8 +10,6 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
     KanbanColumn.include({
         init: function () {
             this._super.apply(this, arguments);
-            // Add debug log
-            console.log('KanbanColumn init', this.modelName);
         },
 
         events: _.extend({}, KanbanColumn.prototype.events, {
@@ -24,9 +22,6 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
         start: function () {
             var self = this;
             return this._super.apply(this, arguments).then(function () {
-                // Add debug log
-                console.log('KanbanColumn start', self.modelName);
-                
                 if (self.modelName === 'hr.applicant') {
                     var $dropdown = self.$('.o_kanban_config .dropdown-menu');
                     if ($dropdown.length) {
@@ -61,7 +56,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
             
             Dialog.confirm(this, _t("Are you sure you want to send emails to applicants in this stage?"), {
                 confirm_callback: function () {
-                    // Show immediate feedback
+                    // Showing immediate feedback
                     self.do_notify(_t('Info'), _t('Sending emails in background...'));
                     
                     self._rpc({
