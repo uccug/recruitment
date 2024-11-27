@@ -30,25 +30,27 @@ class HrApplicant(models.Model):
     # use ir.attachment. and many to one for attachments
     @api.model
     def action_send_stage_email(self, stage_id):
+        stage = self.env['hr.recruitment.stage'].browse(stage_id)
         applicants = self.search([('stage_id', '=', stage_id)])
         
         if not applicants:
             raise UserError('No applicants found in this stage.')
 
-        template = self.env.ref('hr_applicant_custom.email_template_stage_notification', raise_if_not_found=False)
-        if not template:
-            raise UserError('Email template not found!')
+        # Check if stage has a template
+        if not stage.template_id:
+            raise UserError('No email template defined for this stage.')
 
+        # Use the stage's template to send emails
         for applicant in applicants:
-            template.send_mail(applicant.id, force_send=True)
+            stage.template_id.send_mail(applicant.id, force_send=True)
 
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
                 'title': 'Success!',
-                'message': 'Emails sent to {} applicant(s)'.format(len(applicants)),
+                'message': 'Emails sent to {} applicant(s) using stage template'.format(len(applicants)),
                 'type': 'success',
                 'sticky': False,
             }
-        }
+        } 
