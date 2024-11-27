@@ -5,6 +5,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
 
     var core = require('web.core');
     var KanbanColumn = require('web.KanbanColumn');
+    var Dialog = require('web.Dialog');
     var _t = core._t;
     var QWeb = core.qweb;
 
@@ -35,28 +36,29 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                             role: 'menuitem',
                             class: 'dropdown-item o_column_send_email',
                             href: '#',
-                            text: _t('Send Stage Emails')
+                            text: _t('Send Stage Email')
                         }));
                     }
                 }
             });
         },
 
-        _onSendStageEmail: function (ev) {
-            ev.preventDefault();
-            ev.stopPropagation();
-            // Add debug log
-            console.log('Send stage email clicked');
-            
+        _onSendStageEmail: function (event) {
+            event.preventDefault();
             var self = this;
-            this._rpc({
-                model: 'hr.applicant',
-                method: 'action_send_stage_email',
-                args: [[this.id]],
-            }).then(function () {
-                self.do_notify(_t('Success'), _t('Emails sent successfully'));
-            }).guardedCatch(function (error) {
-                self.do_warn(_t('Error'), _t('Failed to send emails'));
+            
+            Dialog.confirm(this, _t("Are you sure you want to send emails to all applicants in this stage?"), {
+                confirm_callback: function () {
+                    self._rpc({
+                        model: 'hr.applicant',
+                        method: 'action_send_stage_email',
+                        args: [[self.id]],
+                    }).then(function () {
+                        self.do_notify(_t('Success'), _t('Emails sent successfully'));
+                    }).guardedCatch(function (error) {
+                        self.do_warn(_t('Error'), _t('Failed to send emails'));
+                    });
+                },
             });
         },
     });
