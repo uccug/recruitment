@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class HrApplicant(models.Model):
     _inherit = 'hr.applicant'
@@ -27,3 +28,27 @@ class HrApplicant(models.Model):
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
     # use ir.attachment. and many to one for attachments
+    @api.model
+    def action_send_stage_email(self, stage_id):
+        applicants = self.search([('stage_id', '=', stage_id)])
+        
+        if not applicants:
+            raise UserError('No applicants found in this stage.')
+
+        template = self.env.ref('hr_applicant_custom.email_template_stage_notification', raise_if_not_found=False)
+        if not template:
+            raise UserError('Email template not found!')
+
+        for applicant in applicants:
+            template.send_mail(applicant.id, force_send=True)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Success!',
+                'message': 'Emails sent to {} applicant(s)'.format(len(applicants)),
+                'type': 'success',
+                'sticky': False,
+            }
+        }

@@ -15,13 +15,15 @@
         'web'
         ],
     'data': [
+        'views/assets_frontend.xml',
+        'views/assets_backend.xml',
         'views/hr_job_views.xml',
         'views/website_hr_recruitment_templates.xml',
         'views/hr_applicant_views.xml',
         'data/mail_template.xml',
-        'views/assets.xml',
         'views/hr_applicant_templates.xml',
     ],
+    'qweb': [],
     'sequence': 100,
     'installable': True,
     'application': False,
