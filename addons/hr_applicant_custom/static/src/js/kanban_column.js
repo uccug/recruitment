@@ -36,7 +36,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                             role: 'menuitem',
                             class: 'dropdown-item o_column_send_email',
                             href: '#',
-                            text: _t('Send Stage Email')
+                            text: _t('Send Stage Emails')
                         }));
                     }
                 }
@@ -55,7 +55,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                         args: [[self.id]],
                     }).then(function () {
                         self.do_notify(_t('Success'), _t('Emails sent successfully'));
-                    }).guardedCatch(function (error) {
+                    }).fail(function (error) {
                         self.do_warn(_t('Error'), _t('Failed to send emails'));
                     });
                 },
