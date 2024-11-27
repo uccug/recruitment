@@ -6,14 +6,59 @@
         <field name="model">hr.applicant</field>
         <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
         <field name="arch" type="xml">
+            <!-- Make base fields readonly -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_name']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_phone']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_mobile']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='department_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='availability']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='salary_expected']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='salary_expected_extra']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='description']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <!-- Add custom fields as readonly -->
             <xpath expr="//sheet/group" position="inside">
                 <group string="Additional Information">
-                    <field name="nin"/>
-                    <field name="gender"/>
-                    <field name="years_of_experience"/>
-                    <field name="highest_education_level"/>
-                    <field name="highest_degree_or_certificate"/>
-                    <field name="professional_body"/>
+                    <field name="nin" readonly="1"/>
+                    <field name="gender" readonly="1"/>
+                    <field name="years_of_experience" readonly="1"/>
+                    <field name="highest_education_level" readonly="1"/>
+                    <field name="highest_degree_or_certificate" readonly="1"/>
+                    <field name="professional_body" readonly="1"/>
                 </group>
             </xpath>
         </field>
