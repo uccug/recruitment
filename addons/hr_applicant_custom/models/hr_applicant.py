@@ -28,28 +28,42 @@ class HrApplicant(models.Model):
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
     # use ir.attachment. and many to one for attachments
+
+    """ 
+    This method is used to send emails to applicants in a specific stage for a given job position.
+    """
     @api.model
-    def action_send_stage_email(self, stage_id):
-        stage = self.env['hr.recruitment.stage'].browse(stage_id)
-        applicants = self.search([('stage_id', '=', stage_id)])
+    def action_send_stage_email(self, stage_id, job_id=False):
+        domain = [('stage_id', '=', stage_id)]
+        if job_id:
+            domain.append(('job_id', '=', job_id))
+            
+        applicants = self.search(domain)
         
         if not applicants:
-            raise UserError('No applicants found in this stage.')
+            raise UserError('No applicants found in this stage for the current job position.')
 
-        # Check if stage has a template
+        stage = self.env['hr.recruitment.stage'].browse(stage_id)
         if not stage.template_id:
             raise UserError('No email template defined for this stage.')
 
-        # Use the stage's template to send emails
+        # Using the stage's template to send emails
         for applicant in applicants:
             stage.template_id.send_mail(applicant.id, force_send=True)
+
+        count = len(applicants)
+        message = 'Email{} sent to {} applicant{}'.format(
+            's' if count > 1 else '',
+            count,
+            's' if count > 1 else ''
+        )
 
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
                 'title': 'Success!',
-                'message': 'Emails sent to {} applicant(s) using stage template'.format(len(applicants)),
+                'message': message,
                 'type': 'success',
                 'sticky': False,
             }

@@ -1,8 +1,6 @@
 odoo.define('hr_applicant_custom.kanban_column', function (require) {
     "use strict";
 
-    console.log("...................hr_applicant_custom.kanban_column should be loaded...........")
-
     var core = require('web.core');
     var KanbanColumn = require('web.KanbanColumn');
     var Dialog = require('web.Dialog');
@@ -46,6 +44,20 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
         _onSendStageEmail: function (event) {
             event.preventDefault();
             var self = this;
+
+            // Getting the current job_id from the parent view
+            var parent = this.getParent();
+            var job_id = parent && parent.state && parent.state.domain && 
+                        _.find(parent.state.domain, function(item) {
+                            return item[0] === 'job_id' && item[1] === '=';
+                        });
+            
+            job_id = job_id && job_id[2];
+
+            if (!job_id) {
+                this.do_warn(_t('Error'), _t('Could not determine the current job position.'));
+                return;
+            }
             
             Dialog.confirm(this, _t("Are you sure you want to send emails to all applicants in this stage?"), {
                 confirm_callback: function () {
@@ -53,8 +65,11 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                         model: 'hr.applicant',
                         method: 'action_send_stage_email',
                         args: [[self.id]],
-                    }).then(function () {
-                        self.do_notify(_t('Success'), _t('Emails sent successfully'));
+                        kwargs: {
+                            'job_id': job_id,
+                        }
+                    }).then(function (result) {
+                        self.do_notify(_t('Success'), _t(result.params.message));
                     }).fail(function (error) {
                         self.do_warn(_t('Error'), _t('Failed to send emails'));
                     });
