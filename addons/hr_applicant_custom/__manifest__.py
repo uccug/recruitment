@@ -22,6 +22,7 @@
         'views/hr_applicant_views.xml',
         'data/mail_template.xml',
         'views/hr_applicant_templates.xml',
+        'wizards/applicant_refuse_reason_views.xml',
     ],
     'qweb': [],
     'sequence': 100,

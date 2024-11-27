@@ -27,6 +27,7 @@ class HrApplicant(models.Model):
     highest_degree_or_certificate = fields.Char(string='Highest Degree or Certificate', tracking=True)
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
+    refuse_reason = fields.Text(string='Refusal Reason', tracking=True)
 
     """ 
     This method is used to send emails to applicants in a specific stage for a given job position.
@@ -101,3 +102,19 @@ class HrApplicant(models.Model):
         if self._context.get('skip_stage_email'):
             return {}
         return super(HrApplicant, self)._track_template(changes)
+
+    @api.multi
+    def archive_applicant(self):
+        """Override archive method to show refuse reason wizard"""
+        self.ensure_one()
+        if self.active:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Refuse Application',
+                'res_model': 'applicant.refuse.reason',
+                'view_mode': 'form',
+                'view_type': 'form',  # Required in Odoo 12
+                'target': 'new',
+                'context': {'active_id': self.id}
+            }
+        return super(HrApplicant, self).archive_applicant()

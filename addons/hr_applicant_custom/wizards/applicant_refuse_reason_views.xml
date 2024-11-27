@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_applicant_refuse_reason_form" model="ir.ui.view">
+        <field name="name">applicant.refuse.reason.form</field>
+        <field name="model">applicant.refuse.reason</field>
+        <field name="arch" type="xml">
+            <form string="Refuse Application">
+                <group>
+                    <field name="refuse_reason" placeholder="Please provide a reason for refusing this application..."/>
+                </group>
+                <footer>
+                    <button string="Refuse Application" name="action_refuse_with_reason" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_applicant_refuse_reason" model="ir.actions.act_window">
+        <field name="name">Refuse Application</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">applicant.refuse.reason</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo> 
