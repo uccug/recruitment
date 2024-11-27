@@ -34,9 +34,10 @@ class HrApplicant(models.Model):
     """
     @api.model
     def action_send_stage_email(self, stage_id, job_id=False):
-        domain = [('stage_id', '=', stage_id)]
-        if job_id:
-            domain.append(('job_id', '=', job_id))
+        if not job_id:
+            raise UserError('Job position not found. Please try again.')
+        
+        domain = [('stage_id', '=', stage_id), ('job_id', '=', job_id)]
             
         applicants = self.search(domain)
         

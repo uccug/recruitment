@@ -59,7 +59,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                 return;
             }
             
-            Dialog.confirm(this, _t("Are you sure you want to send emails to all applicants in this stage?"), {
+            Dialog.confirm(this, _t("Are you sure you want to send emails to applicants in this stage?"), {
                 confirm_callback: function () {
                     self._rpc({
                         model: 'hr.applicant',
