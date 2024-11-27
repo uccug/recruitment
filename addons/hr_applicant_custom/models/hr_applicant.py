@@ -27,7 +27,6 @@ class HrApplicant(models.Model):
     highest_degree_or_certificate = fields.Char(string='Highest Degree or Certificate', tracking=True)
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
-    # use ir.attachment. and many to one for attachments
 
     """ 
     This method is used to send emails to applicants in a specific stage for a given job position.
@@ -67,6 +66,7 @@ class HrApplicant(models.Model):
             }
         }
 
+
     @api.model
     def send_stage_emails(self, template_id):
         """Send emails in background with auto-commit"""
@@ -79,3 +79,4 @@ class HrApplicant(models.Model):
                 force_send=True,
                 raise_exception=False
             ) 
+    # For even better performance in Odoo Enterprise, you could use the queue job module:
