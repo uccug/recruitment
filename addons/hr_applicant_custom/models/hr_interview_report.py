@@ -1,4 +1,7 @@
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class HrInterviewReport(models.Model):
     _name = 'hr.interview.report'
@@ -18,10 +21,14 @@ class HrInterviewReport(models.Model):
         ('submitted', 'Submitted'),
         ('approved', 'Approved')
     ], string='Status', default='draft', tracking=True)
-    attachment_number = fields.Integer(compute='_get_attachment_number', string='Number of Attachments')
+    attachment_number = fields.Integer(compute='_get_attachment_number', string="Number of Attachments")
     attachment_ids = fields.Many2many(
         'ir.attachment',
-        string='Attachments'
+        'hr_interview_report_ir_attachments_rel',
+        'report_id',
+        'attachment_id',
+        string='Attachments',
+        copy=False
     )
 
     @api.multi
@@ -32,9 +39,9 @@ class HrInterviewReport(models.Model):
     @api.multi
     def action_get_attachment_tree_view(self):
         self.ensure_one()
-        attachment_action = self.env.ref('base.action_attachment')
-        action = attachment_action.read()[0]
-        action['domain'] = str([('id', 'in', self.attachment_ids.ids)])
+        action = self.env.ref('base.action_attachment').read()[0]
+        domain = [('id', 'in', self.attachment_ids.ids)]
+        action['domain'] = domain
         action['context'] = {
             'default_res_model': self._name,
             'default_res_id': self.id,
