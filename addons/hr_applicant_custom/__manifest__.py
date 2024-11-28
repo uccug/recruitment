@@ -15,6 +15,8 @@
         'web'
         ],
     'data': [
+        'security/hr_interview_report_security.xml',
+        'security/ir.model.access.csv',
         'views/assets_frontend.xml',
         'views/assets_backend.xml',
         'views/hr_job_views.xml',
@@ -23,6 +25,7 @@
         'data/mail_template.xml',
         'views/hr_applicant_templates.xml',
         'wizards/applicant_refuse_reason_views.xml',
+        'views/hr_interview_report_views.xml',
     ],
     'qweb': [],
     'sequence': 100,

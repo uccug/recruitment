@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_interview_report_user,hr.interview.report.user,model_hr_interview_report,base.group_user,1,0,0,0
+access_hr_interview_report_officer,hr.interview.report.officer,model_hr_interview_report,hr_recruitment.group_hr_recruitment_user,1,1,1,0
+access_hr_interview_report_manager,hr.interview.report.manager,model_hr_interview_report,hr_recruitment.group_hr_recruitment_manager,1,1,1,1
+access_hr_interview_report_department_manager,hr.interview.report.department.manager,model_hr_interview_report,hr.group_hr_manager,1,1,1,0 
