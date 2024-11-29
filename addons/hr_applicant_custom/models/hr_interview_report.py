@@ -3,6 +3,36 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+class IrAttachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        _logger.info('=== Attachment Search Debug ===')
+        _logger.info('Original domain: %s', domain)
+        _logger.info('Context: %s', self.env.context)
+
+        context = self.env.context
+        domain = domain or []
+
+        # Getting the active_id from context
+        active_id = context.get('active_id')
+        
+        # Checking if we came from an interview report
+        if active_id:
+            # Trying to find the interview report record
+            interview_report = self.env['hr.interview.report'].browse(active_id).exists()
+            if interview_report:
+                _logger.info('Found interview report: %s', interview_report)
+                domain = [
+                    ('res_model', '=', 'hr.interview.report'),
+                    ('res_id', '=', active_id)
+                ]
+
+        _logger.info('Modified domain: %s', domain)
+        return super(IrAttachment, self).search_read(domain=domain, fields=fields, 
+                                                   offset=offset, limit=limit, order=order)
+
 class HrInterviewReport(models.Model):
     _name = 'hr.interview.report'
     _description = 'Interview Reports'
@@ -59,20 +89,23 @@ class HrInterviewReport(models.Model):
     @api.multi
     def action_get_attachment_tree_view(self):
         self.ensure_one()
-        # Update existing attachments first in case they were created without a res_id
-        self.attachment_ids.write({
-            'res_model': 'hr.interview.report',
-            'res_id': self.id
-        })
-        
         action = self.env.ref('base.action_attachment').read()[0]
         action['context'] = {
             'default_res_model': self._name,
-            'default_res_id': self.id
+            'default_res_id': self.id,
+            'active_id': self.id,  # Making sure active_id is set
+            'active_model': self._name,  # Trying to preserve active_model
         }
         action['domain'] = [
             ('res_model', '=', self._name),
             ('res_id', '=', self.id)
         ]
+        # Add params to URL
+        action['params'] = {
+            'model': self._name,
+            'res_id': self.id,
+            'active_id': self.id,
+            'active_model': self._name
+        }
         return action
   
