@@ -36,15 +36,43 @@ class HrInterviewReport(models.Model):
         for record in self:
             record.attachment_number = len(record.attachment_ids)
 
+    @api.model
+    def create(self, vals):
+        record = super(HrInterviewReport, self).create(vals)
+        if record.attachment_ids:
+            record.attachment_ids.write({
+                'res_model': 'hr.interview.report',
+                'res_id': record.id
+            })
+        return record
+
+    @api.multi
+    def write(self, vals):
+        result = super(HrInterviewReport, self).write(vals)
+        if 'attachment_ids' in vals:
+            self.attachment_ids.write({
+                'res_model': 'hr.interview.report',
+                'res_id': self.id
+            })
+        return result
+
     @api.multi
     def action_get_attachment_tree_view(self):
         self.ensure_one()
+        # Update existing attachments first in case they were created without a res_id
+        self.attachment_ids.write({
+            'res_model': 'hr.interview.report',
+            'res_id': self.id
+        })
+        
         action = self.env.ref('base.action_attachment').read()[0]
-        domain = [('id', 'in', self.attachment_ids.ids)]
-        action['domain'] = domain
         action['context'] = {
             'default_res_model': self._name,
-            'default_res_id': self.id,
+            'default_res_id': self.id
         }
+        action['domain'] = [
+            ('res_model', '=', self._name),
+            ('res_id', '=', self.id)
+        ]
         return action
   
