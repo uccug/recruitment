@@ -4,10 +4,36 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class IrAttachment(models.Model):
+    """
+    Inherit ir.attachment to customize attachment search behavior for interview reports.
+    This is necessary because the attachment view loses its context and domain after page refresh,
+    causing it to display all system attachments instead of only the relevant document attachments.
+    """
     _inherit = 'ir.attachment'
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        """
+        Override search_read to maintain attachment filtering after page refresh.
+        
+        The original implementation loses the domain filter after refresh because:
+        1. The context loses the 'default_res_model' and other model-specific parameters
+        2. Only 'active_id' survives in the context after refresh
+        
+        This override:
+        1. Uses the surviving 'active_id' to find the related interview report
+        2. Reconstructs the correct domain filter if an interview report is found
+        
+        Args:
+            domain: Search domain (empty after page refresh)
+            fields: Fields to read
+            offset: Query offset
+            limit: Query limit
+            order: Sort order
+        
+        Returns:
+            Filtered attachment records
+        """
         _logger.info('=== Attachment Search Debug ===')
         _logger.info('Original domain: %s', domain)
         _logger.info('Context: %s', self.env.context)
@@ -15,15 +41,15 @@ class IrAttachment(models.Model):
         context = self.env.context
         domain = domain or []
 
-        # Getting the active_id from context
+        # Getting the active_id from context (this survives page refresh)
         active_id = context.get('active_id')
         
-        # Checking if we came from an interview report
+        # Checking if we came from an interview report by trying to find the record
         if active_id:
-            # Trying to find the interview report record
             interview_report = self.env['hr.interview.report'].browse(active_id).exists()
             if interview_report:
                 _logger.info('Found interview report: %s', interview_report)
+                # Reconstructing the domain to filter attachments for this report
                 domain = [
                     ('res_model', '=', 'hr.interview.report'),
                     ('res_id', '=', active_id)
@@ -88,19 +114,33 @@ class HrInterviewReport(models.Model):
 
     @api.multi
     def action_get_attachment_tree_view(self):
+        """
+        Open the attachment view for the current interview report.
+        
+        This method:
+        1. Sets up the initial context and domain for attachment filtering
+        2. Includes 'active_id' in context which survives page refresh
+        3. Adds URL parameters to help maintain context (though not all survive refresh)
+        
+        The attachment filtering is maintained after refresh by the ir.attachment
+        search_read override, which uses the surviving 'active_id' parameter.
+        
+        Returns:
+            dict: Action dictionary for the attachment view
+        """
         self.ensure_one()
         action = self.env.ref('base.action_attachment').read()[0]
         action['context'] = {
             'default_res_model': self._name,
             'default_res_id': self.id,
-            'active_id': self.id,  # Making sure active_id is set
-            'active_model': self._name,  # Trying to preserve active_model
+            'active_id': self.id,  # This survives page refresh
+            'active_model': self._name,
         }
         action['domain'] = [
             ('res_model', '=', self._name),
             ('res_id', '=', self.id)
         ]
-        # Add params to URL
+        # Adding URL parameters to help maintain context (some may be lost after refresh)
         action['params'] = {
             'model': self._name,
             'res_id': self.id,
