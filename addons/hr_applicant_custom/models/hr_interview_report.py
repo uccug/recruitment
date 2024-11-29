@@ -34,9 +34,6 @@ class IrAttachment(models.Model):
         Returns:
             Filtered attachment records
         """
-        _logger.info('=== Attachment Search Debug ===')
-        _logger.info('Original domain: %s', domain)
-        _logger.info('Context: %s', self.env.context)
 
         context = self.env.context
         domain = domain or []
@@ -48,7 +45,6 @@ class IrAttachment(models.Model):
         if active_id:
             interview_report = self.env['hr.interview.report'].browse(active_id).exists()
             if interview_report:
-                _logger.info('Found interview report: %s', interview_report)
                 # Reconstructing the domain to filter attachments for this report
                 domain = [
                     ('res_model', '=', 'hr.interview.report'),
