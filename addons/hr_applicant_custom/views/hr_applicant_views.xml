@@ -6,7 +6,6 @@
         <field name="model">hr.applicant</field>
         <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
         <field name="arch" type="xml">
-            <!-- Make base fields readonly -->
             <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="readonly">1</attribute>
             </xpath>
@@ -50,7 +49,6 @@
                 <attribute name="readonly">1</attribute>
             </xpath>
 
-            <!-- Add custom fields as readonly -->
             <xpath expr="//sheet/group" position="inside">
                 <group string="Additional Information">
                     <field name="nin" readonly="1"/>
@@ -70,6 +68,9 @@
         <field name="model">hr.applicant</field>
         <field name="inherit_id" ref="hr_recruitment.crm_case_tree_view_job"/>
         <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="class">o_hr_applicant_custom</attribute>
+            </xpath>
             <field name="partner_name" position="after">
                 <field name="nin"/>
                 <field name="gender"/>

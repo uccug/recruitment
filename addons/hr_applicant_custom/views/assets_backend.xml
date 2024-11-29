@@ -3,6 +3,7 @@
     <template id="assets_backend" name="hr_applicant_custom backend assets" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/hr_applicant_custom/static/src/js/kanban_column.js"/>
+            <link rel="stylesheet" type="text/scss" href="/hr_applicant_custom/static/src/scss/hr_applicant_backend_custom.scss"/>
         </xpath>
     </template>
 </odoo> 
