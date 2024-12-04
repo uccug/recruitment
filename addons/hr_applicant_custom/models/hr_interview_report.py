@@ -9,9 +9,9 @@ class HrInterviewReport(models.Model):
 
     name = fields.Char('Title', required=True, tracking=True)
     job_id = fields.Many2one('hr.job', string='Job Position', required=True, tracking=True)
-    applicant_id = fields.Many2one('hr.applicant', string='Applicant', required=True, tracking=True,
+    applicant_id = fields.Many2one('hr.applicant', string='Applicant', tracking=True,
                                   domain="[('job_id', '=', job_id)]")
-    date = fields.Date('Interview Date', required=True, tracking=True)
+    date = fields.Date('Interview Date', tracking=True)
     interviewer_ids = fields.Many2many('res.users', string='Interviewers', tracking=True)
     report = fields.Html('Report', required=True, tracking=True)
     state = fields.Selection([
