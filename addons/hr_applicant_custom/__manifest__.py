@@ -27,8 +27,7 @@
         'views/hr_applicant_templates.xml',
         'wizards/applicant_refuse_reason_views.xml',
         'views/hr_interview_report_views.xml',
-        'views/hr_stage_interviewer_views.xml',
-        'views/hr_recruitment_stage_views.xml',
+        'views/hr_stage_interviewer_views.xml'
     ],
     'qweb': [],
     'sequence': 100,
