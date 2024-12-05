@@ -29,14 +29,11 @@ class HrStageInterviewer(models.Model):
 
     @api.model
     def get_user_accessible_application_ids(self, user_id=None):
-        """
-        Get all application IDs accessible to a specific user based on:
-        - Their interviewer assignments
-        - Current date within access period
-        """
         if user_id is None:
             user_id = self.env.user.id
-            
+        
+        _logger.info('Getting accessible applications for user: %s', user_id)
+        
         today = fields.Date.today()
         stage_interviewers = self.search([
             ('interviewer_ids', 'in', user_id),
@@ -44,12 +41,16 @@ class HrStageInterviewer(models.Model):
             ('end_date', '>=', today)
         ])
         
+        _logger.info('Found stage_interviewers: %s', stage_interviewers.mapped('job_id.name'))
+        
         applications = self.env['hr.applicant'].search([
             ('job_id', 'in', stage_interviewers.mapped('job_id').ids),
             ('stage_id', 'in', stage_interviewers.mapped('stage_id').ids)
         ])
         
-        return applications.ids 
+        _logger.info('Found applications: %s', applications.mapped('name'))
+        
+        return applications.ids
 
     @api.model
     def create(self, vals):
