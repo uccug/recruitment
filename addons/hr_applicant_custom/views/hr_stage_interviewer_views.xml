@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_hr_stage_interviewer_form" model="ir.ui.view">
+        <field name="name">hr.stage.interviewer.form</field>
+        <field name="model">hr.stage.interviewer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="job_id"/>
+                            <field name="stage_id"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Interviewers">
+                            <field name="interviewer_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_hr_stage_interviewer_tree" model="ir.ui.view">
+        <field name="name">hr.stage.interviewer.tree</field>
+        <field name="model">hr.stage.interviewer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="job_id"/>
+                <field name="stage_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hr_stage_interviewer" model="ir.actions.act_window">
+        <field name="name">Stage Interviewers</field>
+        <field name="res_model">hr.stage.interviewer</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_hr_stage_interviewer"
+              name="Stage Interviewers"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              action="action_hr_stage_interviewer"
+              sequence="6"/>
+</odoo> 

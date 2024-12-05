@@ -28,6 +28,20 @@ class HrApplicant(models.Model):
     professional_body = fields.Char(string='Professional Body', tracking=True)
     academic_documents = fields.Binary(string='Academic Documents', attachment=True, tracking=True)
     refuse_reason = fields.Text(string='Refusal Reason', tracking=True)
+    stage_interviewer_id = fields.Many2one(
+        'hr.stage.interviewer',
+        string='Stage Interviewer',
+        compute='_compute_stage_interviewer',
+        store=True
+    )
+
+    @api.depends('job_id', 'stage_id')
+    def _compute_stage_interviewer(self):
+        for record in self:
+            record.stage_interviewer_id = self.env['hr.stage.interviewer'].search([
+                ('job_id', '=', record.job_id.id),
+                ('stage_id', '=', record.stage_id.id)
+            ], limit=1)
 
     """ 
     This method is used to send emails to applicants in a specific stage for a given job position.
