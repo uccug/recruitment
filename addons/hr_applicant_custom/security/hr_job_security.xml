@@ -6,17 +6,19 @@
         <field name="domain_force">[
             '|',
                 ('create_uid', '=', user.id),
-                '&amp;',
-                    ('job_id', 'in', user.env['hr.stage.interviewer'].search([
-                        ('interviewer_ids', 'in', user.id),
-                        ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
-                        ('end_date', '&gt;=', time.strftime('%Y-%m-%d'))
-                    ]).mapped('job_id').ids),
-                    ('stage_id', 'in', user.env['hr.stage.interviewer'].search([
-                        ('interviewer_ids', 'in', user.id),
-                        ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
-                        ('end_date', '&gt;=', time.strftime('%Y-%m-%d'))
-                    ]).mapped('stage_id').ids)
+            '|',
+                ('job_id.create_uid', '=', user.id),
+            '&amp;',
+                ('job_id', 'in', user.env['hr.stage.interviewer'].search([
+                    ('interviewer_ids', 'in', user.id),
+                    ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
+                    ('end_date', '&gt;=', time.strftime('%Y-%m-%d'))
+                ]).mapped('job_id').ids),
+                ('stage_id', 'in', user.env['hr.stage.interviewer'].search([
+                    ('interviewer_ids', 'in', user.id),
+                    ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
+                    ('end_date', '&gt;=', time.strftime('%Y-%m-%d'))
+                ]).mapped('stage_id').ids)
         ]</field>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
