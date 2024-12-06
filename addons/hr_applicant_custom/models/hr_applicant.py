@@ -51,11 +51,16 @@ class HrApplicant(models.Model):
         if not job_id:
             raise UserError('Job position not found. Please try again.')
             
-        domain = [('stage_id', '=', stage_id), ('job_id', '=', job_id)]
+        # Update the domain to include only archived (inactive) applicants
+        domain = [
+            ('stage_id', '=', stage_id),
+            ('job_id', '=', job_id),
+            ('active', '=', False)  # Only include archived applications
+        ]
         applicants = self.search(domain)
         
         if not applicants:
-            raise UserError('No applicants found in this stage for the current job position.')
+            raise UserError('No archived applicants found in this stage for the current job position.')
 
         stage = self.env['hr.recruitment.stage'].browse(stage_id)
         if not stage.template_id:
@@ -65,7 +70,7 @@ class HrApplicant(models.Model):
         self.with_context(active_ids=applicants.ids).send_stage_emails(stage.template_id.id)
 
         count = len(applicants)
-        message = 'Sending email{} to {} applicant{}'.format(
+        message = 'Sending email{} to {} archived applicant{}'.format(
             's' if count > 1 else '',
             count,
             's' if count > 1 else ''
@@ -82,18 +87,34 @@ class HrApplicant(models.Model):
         }
 
 
+    # @api.model
+    # def send_stage_emails(self, template_id):
+    #     """Send emails in background with auto-commit"""
+    #     template = self.env['mail.template'].browse(template_id)
+    #     active_ids = self._context.get('active_ids', [])
+        
+    #     for applicant_id in active_ids:
+    #         template.with_context(auto_commit=True).send_mail(
+    #             applicant_id, 
+    #             force_send=True,
+    #             raise_exception=False
+    #         ) 
+
     @api.model
     def send_stage_emails(self, template_id):
-        """Send emails in background with auto-commit"""
+        """Send emails in background with auto-commit to refused (archived) applications"""
         template = self.env['mail.template'].browse(template_id)
         active_ids = self._context.get('active_ids', [])
         
-        for applicant_id in active_ids:
+        # Filter for archived applications
+        archived_applicants = self.search([('id', 'in', active_ids), ('active', '=', False)])
+        
+        for applicant in archived_applicants:
             template.with_context(auto_commit=True).send_mail(
-                applicant_id, 
+                applicant.id, 
                 force_send=True,
                 raise_exception=False
-            ) 
+            )
     # For even better performance when sending emails in Odoo Enterprise, we could use the queue job module:
 
     """ 
