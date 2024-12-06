@@ -97,24 +97,21 @@
     </record>
 
     <!-- Search View -->
-    <!-- <record id="hr_applicant_view_search_inherit" model="ir.ui.view">
+    <record id="hr_applicant_view_search_inherit" model="ir.ui.view">
         <field name="name">hr.applicant.search.inherit</field>
         <field name="model">hr.applicant</field>
         <field name="inherit_id" ref="hr_recruitment.view_crm_case_jobs_filter"/>
         <field name="arch" type="xml">
-            <field name="partner_name" position="after">
-                <field name="nin"/>
-                <field name="highest_education_level"/>
-                <field name="professional_body"/>
-            </field>
-            <filter name="group_by_stage" position="after">
-                <filter string="Education Level" name="group_by_education" 
-                        domain="[]" context="{'group_by': 'highest_education_level'}"/>
-                <filter string="Years of Experience" name="group_by_experience" 
-                        domain="[]" context="{'group_by': 'years_of_experience'}"/>
-            </filter>
+            <filter name="my_applications" position="replace"/>
+            <filter name="done" position="replace"/>
+            <filter name="in_progress" position="replace"/>
+            <filter name="blocked" position="replace"/>
+            <filter name="activities_my" position="replace"/>
+            <filter name="activities_overdue" position="replace"/>
+            <filter name="activities_today" position="replace"/>
+            <filter name="activities_upcoming_all" position="replace"/>
         </field>
-    </record> -->
+    </record>
 
     <!-- Attachment Kanban View - Can be moved to a different place -->
     <record id="ir_attachment_view_kanban_inherit" model="ir.ui.view">
