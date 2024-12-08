@@ -192,6 +192,9 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
             });
 
             if (!isValid) {
+                // Remove any existing alert messages
+                $form.find('.validation-alert').remove();
+
                 var alertContent = '';
 
                 if (errorMessages.required.length) {
