@@ -29,7 +29,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                             role: 'menuitem',
                             class: 'dropdown-item o_column_send_email',
                             href: '#',
-                            text: _t('Send Stage Emails')
+                            text: _t('Send Stage Emails(to archived)')
                         }));
                     }
                 }
@@ -54,7 +54,7 @@ odoo.define('hr_applicant_custom.kanban_column', function (require) {
                 return;
             }
             
-            Dialog.confirm(this, _t("Are you sure you want to send emails to applicants in this stage?"), {
+            Dialog.confirm(this, _t("Are you sure you want to send emails to archived applicants in this stage?"), {
                 confirm_callback: function () {
                     // Showing immediate feedback
                     self.do_notify(_t('Info'), _t('Sending emails in background...'));
