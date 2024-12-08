@@ -33,7 +33,7 @@ This module extends Odoo's HR Recruitment functionality with custom features for
 - [X] Functionality to generate a shortlist of candidates along with their qualifications - already existed. Can be achieved with the use of filters
 - [X] Allow a user to add a reason when rejecting an application
 - [X] Add feature to upload shortlisting and interview and management papers
-- [ ] When the deadline has passed automatically archive the job
+- [ ] When the deadline has passed automatically archive the job. To be addressed after consulting the enterprise version
 - [X] Restrict job application access to interviewers and for a specific period of time. HR should have access to applications all the time
 - [X] Remove unnecessary filters on job applications.
 - [X] Disable editing of job applications
