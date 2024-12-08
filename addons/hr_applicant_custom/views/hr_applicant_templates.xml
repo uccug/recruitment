@@ -173,7 +173,7 @@
 
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
-                                <label class="col-form-label" for="resume">Resume (PDF only)</label>
+                                <label class="col-form-label" for="resume">Resume (PDF only, max 2MB)</label>
                                 <input type="file" 
                                        class="form-control o_website_form_input file-upload-input" 
                                        name="resume" 
@@ -186,7 +186,7 @@
 
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
-                                <label for="academic_documents" class="col-form-label">Academic Documents in a single file (PDF only)</label>
+                                <label for="academic_documents" class="col-form-label">Academic Documents in a single file (PDF only, max 5MB)</label>
                                 <input type="file" 
                                        name="academic_documents" 
                                        id="academic_documents" 
