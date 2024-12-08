@@ -94,7 +94,11 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                         break;
 
                     case 'nin':
-                        var ninRegex = /^[A-Z]{2}[A-Za-z0-9]{12}$/;
+                        // Partial NIN validation. Year of birth, district code, Hex sequence and checksum are left out.
+                        // First letter: C, R, E, A, or W
+                        // Second letter: M, F, or X
+                        // Followed by 12 alphanumeric characters
+                        var ninRegex = /^[CREAW][MFX][A-Za-z0-9]{12}$/;
                         if (value.length !== 14 || !ninRegex.test(value)) {
                             isValid = false;
                             var invalidNinMsg = $field.data('invalid-message') || "Enter a valid NIN Number"
@@ -102,7 +106,6 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                         }
                         break;
                     
-                    // To be improved. not needed
                     case 'gender':
                         if (value === '') {
                             isValid = false;
