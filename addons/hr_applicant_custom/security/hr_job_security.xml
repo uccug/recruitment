@@ -8,6 +8,8 @@
                 ('create_uid', '=', user.id),
             '|',
                 ('job_id.create_uid', '=', user.id),
+            '|',
+                ('user_has_groups', '=', 'hr_recruitment.group_hr_recruitment_user'),
                 ('job_id', 'in', user.env['hr.stage.interviewer'].search([
                     ('interviewer_ids', 'in', user.id),
                     ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
@@ -27,6 +29,8 @@
         <field name="domain_force">[
             '|',
                 ('create_uid', '=', user.id),
+            '|',
+                ('user_has_groups', '=', 'hr_recruitment.group_hr_recruitment_user'),
                 ('id', 'in', user.env['hr.stage.interviewer'].search([
                     ('interviewer_ids', 'in', user.id),
                     ('start_date', '&lt;=', time.strftime('%Y-%m-%d')),
