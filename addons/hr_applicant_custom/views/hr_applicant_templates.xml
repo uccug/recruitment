@@ -66,7 +66,7 @@
 
                         <div class="form-group form-field o_website_form_required_custom row justify-content-center">
                             <div class="col-lg-7 col-md-8">
-                                <label for="nin" class="col-form-label">NIN Number</label>
+                                <label for="nin" class="col-form-label">National Identification Number(NIN)</label>
                                 <input type="text"
                                        name="nin" 
                                        id="nin" 
@@ -74,9 +74,9 @@
                                        required="" 
                                        maxlength="14" 
                                        minlength="14"
-                                       placeholder="Enter you NIN Number"
-                                       data-required-message="NIN Number is required"
-                                       data-invalid-message="Enter a valid NIN Number"/>
+                                       placeholder="Enter you NIN"
+                                       data-required-message="NIN is required"
+                                       data-invalid-message="Enter a valid NIN"/>
                                 <div class="invalid-feedback"></div>
                             </div>
                         </div>
