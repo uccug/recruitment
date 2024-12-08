@@ -6,9 +6,6 @@
         <field name="model">hr.interview.report</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <field name="state" widget="statusbar"/>
-                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_get_attachment_tree_view" 
@@ -62,7 +59,6 @@
                 <field name="job_id"/>
                 <field name="applicant_id"/>
                 <field name="interviewer_ids" widget="many2many_tags"/>
-                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -79,19 +75,11 @@
                 <field name="interviewer_ids"/>
                 <filter string="My Interviews" name="my_interviews" 
                         domain="[('interviewer_ids', 'in', uid)]"/>
-                <filter string="Draft" name="draft" 
-                        domain="[('state', '=', 'draft')]"/>
-                <filter string="Submitted" name="submitted" 
-                        domain="[('state', '=', 'submitted')]"/>
-                <filter string="Approved" name="approved" 
-                        domain="[('state', '=', 'approved')]"/>
                 <group expand="0" string="Group By">
                     <filter string="Job Position" name="job" 
                             domain="[]" context="{'group_by': 'job_id'}"/>
                     <filter string="Applicant" name="applicant" 
                             domain="[]" context="{'group_by': 'applicant_id'}"/>
-                    <filter string="Status" name="state" 
-                            domain="[]" context="{'group_by': 'state'}"/>
                     <filter string="Interview Date" name="date" 
                             domain="[]" context="{'group_by': 'date'}"/>
                 </group>

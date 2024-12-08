@@ -14,11 +14,6 @@ class HrInterviewReport(models.Model):
     date = fields.Date('Interview Date', tracking=True)
     interviewer_ids = fields.Many2many('res.users', string='Interviewers', tracking=True)
     report = fields.Html('Report', required=True, tracking=True)
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('submitted', 'Submitted'),
-        ('approved', 'Approved')
-    ], string='Status', default='draft', tracking=True)
     attachment_number = fields.Integer(compute='_get_attachment_number', string="Number of Attachments")
     attachment_ids = fields.Many2many(
         'ir.attachment',
