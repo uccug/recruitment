@@ -153,3 +153,40 @@ class HrApplicant(models.Model):
                 'context': {'active_id': self.id}
             }
         return super(HrApplicant, self).archive_applicant()
+
+    @api.model
+    def create(self, vals):
+        """
+        Override create method to disable automatic email sending when application is submitted.
+        The skip_stage_email context prevents the initial stage template from being sent.
+        
+        @param vals: Dictionary of field values to create the record with
+        @return: Newly created record
+        """
+        return super(HrApplicant, self.with_context(skip_stage_email=True)).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        """
+        Override write method to disable automatic email sending when stage is changed.
+        The skip_stage_email context prevents the stage template from being sent.
+        
+        @param vals: Dictionary of field values to update
+        @return: True
+        """
+        if 'stage_id' in vals:
+            return super(HrApplicant, self.with_context(skip_stage_email=True)).write(vals)
+        return super(HrApplicant, self).write(vals)
+
+    @api.multi
+    def _track_template(self, changes):
+        """
+        Override tracking template method to skip automatic email sending.
+        This affects both initial application and stage change emails.
+        
+        @param changes: Dictionary of changed fields
+        @return: Empty dict if skip_stage_email is set, otherwise normal tracking
+        """
+        if self._context.get('skip_stage_email'):
+            return {}
+        return super(HrApplicant, self)._track_template(changes)
