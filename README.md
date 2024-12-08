@@ -36,6 +36,7 @@ This module extends Odoo's HR Recruitment functionality with custom features for
 - [ ] When the deadline has passed automatically archive the job
 - [X] Restrict job application access to interviewers and for a specific period of time. HR should have access to applications all the time
 - [X] Remove unnecessary filters on job applications.
+- [X] Disable editing of job applications
 
 
 ## Technical Details
