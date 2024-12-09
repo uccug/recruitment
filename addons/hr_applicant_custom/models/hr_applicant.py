@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
+from psycopg2 import IntegrityError
 
 class HrApplicant(models.Model):
     _inherit = 'hr.applicant'
@@ -35,17 +36,17 @@ class HrApplicant(models.Model):
         store=True
     )
 
-    # _sql_constraints = [
-    #     ('unique_nin', 'unique(nin)', 'The NIN number must be unique for each applicant.')
-    # ]
+    _sql_constraints = [
+        ('unique_nin', 'unique(nin)', 'The NIN number must be unique for each applicant.')
+    ]
 
-    # @api.constrains('nin')
-    # def _check_unique_nin(self):
-    #     for record in self:
-    #         if record.nin:
-    #             existing_applicant = self.search([('nin', '=', record.nin), ('id', '!=', record.id)])
-    #             if existing_applicant:
-    #                 raise ValidationError('An applicant with this NIN number already exists.')
+    @api.constrains('nin')
+    def _check_unique_nin(self):
+        for record in self:
+            if record.nin:
+                existing_applicant = self.search([('nin', '=', record.nin), ('id', '!=', record.id)])
+                if existing_applicant:
+                    raise ValidationError('An applicant with this NIN number already exists.')
 
     @api.depends('job_id', 'stage_id')
     def _compute_stage_interviewer(self):
@@ -97,20 +98,6 @@ class HrApplicant(models.Model):
                 'type': 'success'
             }
         }
-
-
-    # @api.model
-    # def send_stage_emails(self, template_id):
-    #     """Send emails in background with auto-commit"""
-    #     template = self.env['mail.template'].browse(template_id)
-    #     active_ids = self._context.get('active_ids', [])
-        
-    #     for applicant_id in active_ids:
-    #         template.with_context(auto_commit=True).send_mail(
-    #             applicant_id, 
-    #             force_send=True,
-    #             raise_exception=False
-    #         ) 
 
     @api.model
     def send_stage_emails(self, template_id):
@@ -168,27 +155,35 @@ class HrApplicant(models.Model):
 
     @api.model
     def create(self, vals):
-        """
-        Override create method to disable automatic email sending when application is submitted.
-        The skip_stage_email context prevents the initial stage template from being sent.
-        
-        @param vals: Dictionary of field values to create the record with
-        @return: Newly created record
-        """
-        return super(HrApplicant, self.with_context(skip_stage_email=True)).create(vals)
+        try:
+            """
+            Override create method to disable automatic email sending when application is submitted.
+            The skip_stage_email context prevents the initial stage template from being sent.
+            """
+            return super(HrApplicant, self.with_context(skip_stage_email=True)).create(vals)
+        except IntegrityError as e:
+             # Provide a user-friendly error message for duplicate NIN
+            if 'unique_nin' in str(e):
+                raise UserError('An applicant with this NIN number already exists')
+            else:
+                raise
 
     @api.multi
     def write(self, vals):
-        """
-        Override write method to disable automatic email sending when stage is changed.
-        The skip_stage_email context prevents the stage template from being sent.
-        
-        @param vals: Dictionary of field values to update
-        @return: True
-        """
-        if 'stage_id' in vals:
-            return super(HrApplicant, self.with_context(skip_stage_email=True)).write(vals)
-        return super(HrApplicant, self).write(vals)
+        try:
+            """
+            Override write method to disable automatic email sending when stage is changed.
+            The skip_stage_email context prevents the stage template from being sent.
+            """
+            if 'stage_id' in vals:
+                return super(HrApplicant, self.with_context(skip_stage_email=True)).write(vals)
+            return super(HrApplicant, self).write(vals)
+        except IntegrityError as e:
+             # Provide a user-friendly error message for duplicate NIN
+            if 'unique_nin' in str(e):
+                raise UserError('An applicant with this NIN number already exists')
+            else:
+                raise
 
     @api.multi
     def _track_template(self, changes):

@@ -238,7 +238,18 @@ odoo.define('hr_applicant_custom.custom_validation', function (require) {
                         var result = JSON.parse(response);
                         if (result.error) {
                             console.error('Error response:', result.error);
-                            self._showAlert($form, result.error_message || 'An unexpected error occurred. Please try again.', 'danger');
+                            var errorMessage = result.error_message
+                                ? result.error_message.replace(/[\(\)']/g, '')
+                                    .split(',')     
+                                    .map(function(str) {
+                                        return str.trim();
+                                    })
+                                    .filter(function(str) {
+                                        return str !== '';
+                                    })
+                                    .join('')  
+                                : 'An unexpected error occurred. Please try again.';
+                            self._showAlert($form, errorMessage, 'danger');
                         } else {
                             window.location.href = result.redirect_url || '/job-thank-you';
                         }
