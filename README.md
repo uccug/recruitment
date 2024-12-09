@@ -43,7 +43,10 @@ This module extends Odoo's HR Recruitment functionality with custom features for
 
 ### Demo video
 
-https://ucccoug-my.sharepoint.com/:v:/g/personal/cwaitire_ucc_co_ug/EQ9y298YtLxAocibc4L69tkBMwKMQjkk84KWqBELfSa2pA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=AvdyYm
+https://ucccoug-my.sharepoint.com/:v:/g/personal/cwaitire_ucc_co_ug/EQ9y298YtLxAocibc4L69tkB7ApzetJLVCl904k7UA8fQw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=H2eGP0
+
+#### Demo that prevents duplicates
+https://ucccoug-my.sharepoint.com/:v:/g/personal/cwaitire_ucc_co_ug/EbxkoonBE_FFuk69HKxD1N0BjglnzlrhGYknDGx8n7jHPA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=Rktlb1
 
 ## Technical Details
 
