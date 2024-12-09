@@ -33,7 +33,7 @@
         <field name="perm_unlink" eval="False"/>
     </record>
 
-    <!-- HR Users Rule - Full Access to Jobs -->
+      <!-- HR Users Rule - Full Access to Jobs -->
     <record id="hr_job_hr_user_rule" model="ir.rule">
         <field name="name">HR Users: Full Access to Jobs</field>
         <field name="model_id" ref="hr.model_hr_job"/>
@@ -58,6 +58,7 @@
                     ('end_date', '&gt;=', time.strftime('%Y-%m-%d'))
                 ]).mapped('job_id').ids)
         ]</field>
+        <field name="groups" eval="[(4, ref('hr_recruitment.group_hr_recruitment_user'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
