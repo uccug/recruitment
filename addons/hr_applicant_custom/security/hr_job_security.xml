@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+<!-- The rules here are not working as expected. Disabled temporarily. This can be addressed later -->
     <!-- HR Users Rule - Full Access to Applications -->
-    <record id="hr_applicant_hr_user_rule" model="ir.rule">
+    <!-- <record id="hr_applicant_hr_user_rule" model="ir.rule">
         <field name="name">HR Users: Full Access to Applications</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
         <field name="domain_force">[(1, '=', 1)]</field>
@@ -10,10 +11,10 @@
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="True"/>
         <field name="perm_unlink" eval="True"/>
-    </record>
+    </record> -->
 
     <!-- Interviewer Rule - Restricted Access to Applications -->
-    <record id="hr_applicant_stage_interviewer_rule" model="ir.rule">
+    <!-- <record id="hr_applicant_stage_interviewer_rule" model="ir.rule">
         <field name="name">Applications: Stage Interviewer Access</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
         <field name="domain_force">[
@@ -31,10 +32,10 @@
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
-    </record>
+    </record> -->
 
       <!-- HR Users Rule - Full Access to Jobs -->
-    <record id="hr_job_hr_user_rule" model="ir.rule">
+    <!-- <record id="hr_job_hr_user_rule" model="ir.rule">
         <field name="name">HR Users: Full Access to Jobs</field>
         <field name="model_id" ref="hr.model_hr_job"/>
         <field name="domain_force">[(1, '=', 1)]</field>
@@ -43,10 +44,10 @@
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="True"/>
         <field name="perm_unlink" eval="True"/>
-    </record>
+    </record> -->
 
     <!-- Interviewer Rule - Restricted Access to Jobs -->
-    <record id="hr_job_stage_interviewer_rule" model="ir.rule">
+    <!-- <record id="hr_job_stage_interviewer_rule" model="ir.rule">
         <field name="name">Jobs: Stage Interviewer Access</field>
         <field name="model_id" ref="hr.model_hr_job"/>
         <field name="domain_force">[
@@ -63,5 +64,5 @@
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
-    </record>
+    </record> -->
 </odoo> 
