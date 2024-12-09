@@ -17,7 +17,6 @@
     'data': [
         'security/hr_interview_report_security.xml',
         'security/ir.model.access.csv',
-        'security/hr_job_security.xml',
         'views/assets_frontend.xml',
         'views/assets_backend.xml',
         'views/hr_job_views.xml',
@@ -33,5 +32,5 @@
     'sequence': 100,
     'installable': True,
     'application': False,
-    'auto_install': False
+    'auto_install': Falses
 }

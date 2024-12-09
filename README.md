@@ -38,7 +38,6 @@ This module extends Odoo's HR Recruitment functionality with custom features for
 - [X] Fix page refresh issue on attachments page. After a page refresh the attachments page was showing all files in the system.
 - [X] Prevent duplicate applications
 - [X] Add a chatter to interview reports to track changes
-- [ ] Restrict job application access to interviewers and for a specific period of time. HR should have access to applications all the time. 
 - [ ] When the deadline has passed automatically archive the job. To be addressed after consulting the enterprise version
 - [ ] Update job positions search to exclude archived jobs
 
