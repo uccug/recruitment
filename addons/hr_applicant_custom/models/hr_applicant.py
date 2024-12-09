@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class HrApplicant(models.Model):
     _inherit = 'hr.applicant'
@@ -34,6 +34,18 @@ class HrApplicant(models.Model):
         compute='_compute_stage_interviewer',
         store=True
     )
+
+    # _sql_constraints = [
+    #     ('unique_nin', 'unique(nin)', 'The NIN number must be unique for each applicant.')
+    # ]
+
+    # @api.constrains('nin')
+    # def _check_unique_nin(self):
+    #     for record in self:
+    #         if record.nin:
+    #             existing_applicant = self.search([('nin', '=', record.nin), ('id', '!=', record.id)])
+    #             if existing_applicant:
+    #                 raise ValidationError('An applicant with this NIN number already exists.')
 
     @api.depends('job_id', 'stage_id')
     def _compute_stage_interviewer(self):
