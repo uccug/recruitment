@@ -1,14 +1,7 @@
 # HR Applicant Custom Module
 
 ## Overview
-This module extends Odoo's HR Recruitment functionality with custom features for managing job applications. It provides enhanced form validation, custom fields, and manual email management for the recruitment process.
-
-# 🚨 Warning
-
-> **⚠️ Important:**  
-> It has been tested with odoo 12 community edition which is running in a docker container. It has not yet been tested with the enterprise version.
-
-
+This module extends Odoo 12's HR Recruitment functionality with custom features for managing job applications. It provides enhanced form validation, custom fields, and manual email management for the recruitment process.
 
 ## Addressed requirements
 - [X] Capture applicant's Resume and academic documents. Should only accept PDF files.
