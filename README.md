@@ -23,11 +23,11 @@ This module extends Odoo 12's HR Recruitment functionality with custom features 
 - [X] Allow a user to send emails to refused/rejected applicants
 - [X] Close the application after the closing date
 - [X] Show all applications, detailing their academic and professional qualifications as well as years of experience and relevant memberships
-- [X] Functionality to generate a shortlist of candidates along with their qualifications - already existed. Can be achieved with the use of filters
+- [X] Functionality to generate a shortlist of candidates along with their qualifications - already existing. Can be achieved with the use of filters
 - [X] Allow a user to add a reason when rejecting an application
 - [X] Add feature to upload shortlisting and interview and management papers
 - [X] Remove unnecessary filters on job applications.
-- [X] Disable editing of job applicationss
+- [X] Disable editing of job applications
 - [X] Fix page refresh issue on attachments page. After a page refresh the attachments page was showing all files in the system.
 - [X] Prevent duplicate applications
 - [X] Add a chatter to interview reports to track changes
