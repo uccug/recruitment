@@ -33,6 +33,8 @@ This module extends Odoo 12's HR Recruitment functionality with custom features 
 - [X] Add a chatter to interview reports to track changes
 - [ ] When the deadline has passed automatically archive the job. To be addressed after consulting the enterprise version
 - [ ] Update job positions search to exclude archived jobs
+- [ ] Add default values to new fields to be compatible with existing data.
+- [ ] For the unique constraint run a migration script to update existing data
 
 ### Demo video
 
